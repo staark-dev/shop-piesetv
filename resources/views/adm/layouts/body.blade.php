@@ -21,15 +21,15 @@
                     <div class="sidebar content-box" style="display: block;">
                         <ul class="nav">
                         <!-- Main menu -->
-                        <li class="current"><a href="{{ route('admin.dashboard') }}"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-                        <li><a href="{{ route('admin.product.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Products</a></li>
-                        <li><a href="{{ route('admin.orders.index') }}"><i class="glyphicon glyphicon-credit-card"></i> Orders</a></li>
-                        <li><a href="{{ route('admin.user.index') }}"><i class="glyphicon glyphicon-user"></i> Custommers</a></li>
-                        <li><a href="{{ route('admin.cat.index') }}"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> Categories</a></li>
+                        <li class="current"><a href="{{ route('admin.dashboard') }}"><i class="glyphicon glyphicon-home"></i> Prima Pagina</a></li>
+                        <li><a href="{{ route('admin.product.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Produse</a></li>
+                        <li><a href="{{ route('admin.orders.index') }}"><i class="glyphicon glyphicon-credit-card"></i> Comenzii</a></li>
+                        <li><a href="{{ route('admin.user.index') }}"><i class="glyphicon glyphicon-user"></i> Utilizatori</a></li>
+                        <li><a href="{{ route('admin.cat.index') }}"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> Categorii</a></li>
                         <li><a href="{{ route('admin.task.index') }}"><i class="glyphicon glyphicon-tasks"></i> Tasks</a></li>
-                        <li><a href="{{ route('admin.cart.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a></li>
+                        <li><a href="{{ route('admin.cart.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Setari Cos</a></li>
                         <li><a href="{{ route('admin.mail.index') }}"><i class="glyphicon glyphicon-envelope"></i> Mail</a></li>
-                        <li><a href="{{ route('admin.setting.index') }}"><i class="glyphicon glyphicon-wrench"></i> Settings</a></li>
+                        <li><a href="{{ route('admin.setting.index') }}"><i class="glyphicon glyphicon-wrench"></i> Setari Site</a></li>
                         </ul>
                     </div>
                 </div>

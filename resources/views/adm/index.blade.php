@@ -19,7 +19,7 @@
             </div>
             <div class="text">
                 <var>{{ $users->count() }}</var>
-                <label class="text-muted">custommers</label>
+                <label class="text-muted">utilizatori</label>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="text">
                 <var>{{ $products->count() }}</var>
-                <label class="text-muted">products</label>
+                <label class="text-muted">produse disponibile</label>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="text">
                 <var>0</var>
-                <label class="text-muted">total orders</label>
+                <label class="text-muted">comenzii</label>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="text">
                 <var>{{ $totalCat }}</var>
-                <label class="text-muted">categories</label>
+                <label class="text-muted">categorii</label>
             </div>
         </div>
     </div>
@@ -69,7 +69,7 @@
                     <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>

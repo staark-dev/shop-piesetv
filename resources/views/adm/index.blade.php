@@ -1,11 +1,13 @@
 @extends('adm.layouts.body')
 
 @section('customcss')
+<style>
 .hero-widget { text-align: center; padding-top: 20px; padding-bottom: 20px; }
 .hero-widget .icon { display: block; font-size: 64px; line-height: 64px; margin-bottom: 10px; text-align: center; }
 .hero-widget var { display: block; height: 48x; font-size: 48px; line-height: 48px; font-style: normal; }
 .hero-widget label { font-size: 17px; }
 .hero-widget .options { margin-top: 10px; }
+</style>
 @endsection
 
 @section('content')

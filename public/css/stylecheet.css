@@ -1,0 +1,32 @@
+.ef {
+    padding: 0 5px 3px;
+    position: relative;
+    top: -1px;
+    font-weight: 800;
+    border-radius: 2px;
+    background: rgb(0,33,36);
+    background: linear-gradient(0deg, rgb(219, 68, 240) 0%, rgb(219, 68, 240) 35%, rgb(219, 68, 240) 81%);
+    color: white;
+}
+
+.section-header .nav-link {
+    font-size: 14px;
+    color: white !important;
+    font-family: "Inter", Arial, "Helvetica Neue", "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+a.brand-wrap {
+    font-size: 20px;
+    color: cadetblue;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", Arial, "Helvetica Neue", "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #343a40;
+    text-align: left;
+    background-color: #fff;
+}

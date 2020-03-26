@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Categories;
+use Carbon\Carbon;
+use Spatie\Sitemap\SitemapGenerator;
 
 class HomeController extends Controller
 {
@@ -25,6 +27,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // SitemapGenerator::create('https://upgrade.shop-piesetv.ro')->writeToFile(public_path('sitemap.xml'));
+        // SitemapGenerator::create('https://upgrade.shop-piesetv.ro')->getSitemap()->writeToDisk('public', 'sitemap.xml'); 
+
         $count = Categories::count();
         $headCat = Categories::take(3)->get();
         $allCat = Categories::skip(3)->take($count - 3)->get();

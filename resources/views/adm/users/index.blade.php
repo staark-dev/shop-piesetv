@@ -57,7 +57,7 @@
                 </td>
                 <td>
                     <a href="{{ route('admin.user.edit', ['user' => $users->id]) . '?section=profile' }}" class="btn btn-warning btn-xs pull-left"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;
-                    <a href="#myModal" class="btn btn-danger btn-xs">
+                    <a data-toggle="modal" href="#" data-whatever="{{ $users->id }}" data-target="#masterModal" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-minus-sign"></span>
                     </a>
                 </td>
@@ -67,17 +67,38 @@
         </table>
     </div>
 </div>
-<div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Delete Confirmation</h3>
-    </div>
-    <div class="modal-body">
-        <p class="error-text">Are you sure you want to delete the user?</p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn btn-danger" data-dismiss="modal">Delete</button>
-    </div>
-</div>
+
+@include('adm.layouts.modal.master', [
+    'modal' => [
+        'type' => 'user_delete',
+        'title' => 'Sterge un utilizator',
+        'body' => 'Esti sigut ca vrei sa stergi acest utilizator ?<br />Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
+        'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
+    ]
+])
+@endsection
+
+@section('scripts')
+<script>
+$('#masterModal').on('shown.bs.modal', function (event) {
+    var submit = $(this).find('#delete');
+    var button = $(event.relatedTarget);
+    var user_id = button.data('whatever');
+    var parent = $(this);
+    submit.on('click', function() {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/user/' + user_id,
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                '_method': 'DELETE'
+            },
+            success: function(result) {
+                console.log('User #'+ user_id +' has been deleted.');
+                parent.modal('hide');
+            }
+        });
+    });
+});
+</script>
 @endsection

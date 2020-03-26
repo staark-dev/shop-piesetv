@@ -204,7 +204,9 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->roles()->detach();
+        $user->delete();
     }
 
     public function activate(Request $request, $id)

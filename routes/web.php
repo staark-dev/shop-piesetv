@@ -32,6 +32,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mid
     Route::group(['prefix' => 'cat', 'as' => 'cat.'], function () {
         Route::get('/sub/create', 'CategoriesController@sub_create')->name('sub.create');
         Route::post('/sub/store', 'CategoriesController@sub_store')->name('sub.store');
+        Route::delete('/sub/{cat}', 'CategoriesController@sub_destroy')->name('sub.destroy');
     });
     
     Route::resource('setting', 'SettingsController')->only([

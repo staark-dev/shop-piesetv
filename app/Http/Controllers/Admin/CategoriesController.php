@@ -116,4 +116,9 @@ class CategoriesController extends Controller
     {
         return view('adm.cat.sub', compact('cat'));
     }
+
+    public function sub_destroy($id)
+    {
+        
+    }
 }

@@ -169,6 +169,21 @@ table.table tr th, table.table tr td {
                     <a href="#deleteCategoriesModal" class="delete" data-categories="{{ $item->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
+            @forelse ($item->sub_categories as $sub)
+                <tr>
+                    <td>{{ $sub->id }}</td>
+                    <td>&nbsp;»<strong> {{ $sub->name }}</strong></td>
+                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                    <td>{{ route('cat.view', ['slug' => $sub->slug]) }}</td>
+                    <td>-</td>
+                    <td>
+                        <a href="#" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
+                        <a href="#deleteSubCategoriesModal" class="delete" data-sub_categories="{{ $sub->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            @empty
+                
+            @endforelse
             @endforeach
         </tbody>
     </table>
@@ -182,7 +197,16 @@ table.table tr th, table.table tr td {
     'modal' => [
         'id' => 'deleteCategoriesModal',
         'title' => 'Stergere Categorie',
-        'body' => 'Esti sigut ca vrei sa stergi acesta categorie ?<br /><span class="user_msg"></span>Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
+        'body' => 'Esti sigut ca vrei sa stergi acesta categorie ?<br />Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
+        'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
+    ]
+])
+
+@include('adm.layouts.modal.master', [
+    'modal' => [
+        'id' => 'deleteSubCategoriesModal',
+        'title' => 'Stergere Sub Categorie',
+        'body' => 'Esti sigut ca vrei sa stergi acesta sub categorie ?<br />Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
         'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
     ]
 ])
@@ -192,7 +216,7 @@ table.table tr th, table.table tr td {
 
 @section('scripts')
 <script>
-$('#deleteProductModal').on('show.bs.modal', function (event) {
+$('#deleteCategoriesModal').on('shown.bs.modal', function (event) {
     var submit = $(this).find('#delete');
     var button = $(event.relatedTarget);
     var cat_id = button.data('categories');
@@ -202,6 +226,30 @@ $('#deleteProductModal').on('show.bs.modal', function (event) {
         $.ajax({
             type: 'POST',
             url: '/admin/cat/' + cat_id,
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                '_method': 'DELETE'
+            },
+            success: function(result) {
+                parent.modal('hide');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+    });
+});
+
+$('#deleteSubCategoriesModal').on('shown.bs.modal', function (event) {
+    var submit = $(this).find('#delete');
+    var button = $(event.relatedTarget);
+    var cat_id = button.data('sub_categories');
+    
+    var parent = $(this);
+    submit.on('click', function() {
+        $.ajax({
+            type: 'POST',
+            url: 'admin/cat/sub/' + cat_id,
             data: {
                 '_token': $('meta[name="csrf-token"]').attr('content'),
                 '_method': 'DELETE'

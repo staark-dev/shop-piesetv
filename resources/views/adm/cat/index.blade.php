@@ -2,6 +2,8 @@
 
 {{-- Add custom CSS to head on base template --}}
 @section('customcss')
+<link rel="stylesheet" href="{{ asset('adm/css/modals.css') }}">
+
 <style>
 .table-wrapper {
     background: #fff;
@@ -118,107 +120,100 @@ table.table tr th, table.table tr td {
 @endsection
 
 @section('content')
-    @if (session('noAccess'))
-    <div class="alert alert-warning">
-        {{ session('noAccess') }}
-    </div>
-    @endif
+@if (session('noAccess'))
+<div class="alert alert-warning">
+    {{ session('noAccess') }}
+</div>
+@endif
 
-    @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-    @endif
+@if (session('status'))
+<div class="alert alert-success">
+    {{ session('status') }}
+</div>
+@endif
 
-    <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h2>Gestionează <b>Categorii</b></h2>
-                </div>
-                <div class="col-sm-8">
-                    <a href="{{ route('admin.cat.sub.create') }}" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> <span>Adauga Sub Categorie</span></a>
-                    <a href="{{ route('admin.cat.create') }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> <span>Adauga Categorie</span></a>
-                    <a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign"></span> <span>Stege tot</span></a>
-                </div>
+<div class="table-wrapper table-responsive">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Gestionează <b>Categorii</b></h2>
+            </div>
+            <div class="col-sm-8">
+                <a href="{{ route('admin.cat.sub.create') }}" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> <span>Adauga Sub Categorie</span></a>
+                <a href="{{ route('admin.cat.create') }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> <span>Adauga Categorie</span></a>
+                <a href="#myModal" data-toggle="modal" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign"></span> <span>Stege tot</span></a>
             </div>
         </div>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nume</th>						
-                    <th>Data Creare</th>
-                    <th>URL</th>
-                    <th>Brand-uri</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($cat as $item)
-                <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                    <td>{{ route('cat.view', ['slug' => $item->slug]) }}</td>
-                    <td>{{ $item->sub_categories->count() }}</td>
-                    <td>
-                        <a href="#" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
-                        <a href="#" class="delete" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="clearfix">
-            <div class="hint-text">Afișând <b>{{ $cat->count() }}</b> din <b>{{ $cat->total() }}</b> de înregistrări</div>
-            {{ $cat->links() }}
-        </div>
     </div>
-
-<div class="row content-box" style="display: none;">
-
-
-    <div class="col-md-12">
-        <h3>Categorii</h3>
-        <hr>
-    </div>
-    <div class="col-md-6 clearfix text-right pull-right">
-        <a href="{{ route('admin.cat.create') }}" class="btn bnt-xs btn-primary clearfix" style="margin: 5px 5px;"><span class="glyphicon glyphicon-ok"></span> Adauga Categorie</a>
-        <a href="{{ route('admin.cat.sub.create') }}" class="btn bnt-xs btn-warning clearfix" style="margin: 5px 5px;"><span class="glyphicon glyphicon-list-alt"></span> Adauga Sub Categorie</a>
-        <a href="#" class="btn bnt-xs btn-danger clearfix" style="margin: 5px 5px;"><span class="glyphicon glyphicon-trash"></span> Sterge</a>
-    </div>
-
-    <div class="col-lg clearfix table-responsive">
-        <table class="table table-bordered">
-            <tbody class="thead table-dark">
-                <tr>
-                    <td>#</td>
-                    <td style="width: 220px">Nume</td>
-                    <td>Slug</td>
-                    <td class="text-center" style="width:60px">Marcheaza</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                @foreach ($cat as $item)
-                    <tr>
-                        <td @if(!empty($item->sub_categories)) rowspan="{{ $item->sub_categories->count()+1 }}" @endif>{{ $item->id }}</td>
-                        <td>{{ $item->name }}<br />Added {{ $item->created_at->diffForHumans() }}</td>
-                        <td>{{ $item->slug }}</td>
-                        <td class="text-center"><input name="cat_id" type="checkbox"></td>
-                    </tr>
-                    @if(!empty($item->sub_categories))
-                    @foreach ($item->sub_categories as $sub)
-                        <tr>
-                            <td>&nbsp;»<strong> {{ $sub->name }}</strong></td>
-                            <td>{{ $sub->slug }}</td>
-                            <td class="text-center"><input name="sub_cat_id" type="checkbox"></td>
-                        </tr>
-                    @endforeach
-                    @endif
-                @endforeach
-            </tfoot>
-        </table>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nume</th>						
+                <th>Data Creare</th>
+                <th>URL</th>
+                <th>Brand-uri</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($cat as $item)
+            <tr>
+                <td>{{ $item->id }}</td>
+                <td>{{ $item->name }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                <td>{{ route('cat.view', ['slug' => $item->slug]) }}</td>
+                <td>{{ $item->sub_categories->count() }}</td>
+                <td>
+                    <a href="#" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
+                    <a href="#deleteCategoriesModal" class="delete" data-categories="{{ $item->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <div class="clearfix">
+        <div class="hint-text">Afișând <b>{{ $cat->count() }}</b> din <b>{{ $cat->total() }}</b> de înregistrări</div>
+        {{ $cat->links() }}
     </div>
 </div>
+
+@include('adm.layouts.modal.master', [
+    'modal' => [
+        'id' => 'deleteCategoriesModal',
+        'title' => 'Stergere Categorie',
+        'body' => 'Esti sigut ca vrei sa stergi acesta categorie ?<br /><span class="user_msg"></span>Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
+        'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
+    ]
+])
+
+@include('adm.layouts.modal.delete');
+@endsection
+
+@section('scripts')
+<script>
+$('#deleteProductModal').on('show.bs.modal', function (event) {
+    var submit = $(this).find('#delete');
+    var button = $(event.relatedTarget);
+    var cat_id = button.data('categories');
+    
+    var parent = $(this);
+    submit.on('click', function() {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/cat/' + cat_id,
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                '_method': 'DELETE'
+            },
+            success: function(result) {
+                parent.modal('hide');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+    });
+});
+</script>
 @endsection

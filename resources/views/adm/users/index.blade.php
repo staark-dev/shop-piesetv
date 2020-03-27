@@ -1,6 +1,8 @@
 @extends('adm.layouts.body')
 
 @section('customcss')
+<link rel="stylesheet" href="{{ asset('adm/css/modals.css') }}">
+
 <style>
     .table-wrapper {
         background: #fff;
@@ -169,7 +171,7 @@
 </div>
 @endif
 
-<div class="table-wrapper">
+<div class="table-wrapper table-responsive">
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
@@ -177,7 +179,7 @@
             </div>
             <div class="col-sm-6">
                 <a href="{{ route('admin.user.create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Adauga utilizator</a>
-                <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="glyphicon glyphicon-minus-sign"></i> <span>Sterge tot</span></a>
+                <a href="#myModal" class="btn btn-danger" data-toggle="modal"><i class="glyphicon glyphicon-minus-sign"></i> <span>Sterge tot</span></a>
                 <a href="{{ route('admin.role.index') }}" class="btn btn-primary"><span class="glyphicon glyphicon-tower"></span> Roluri</a>
             </div>
         </div>
@@ -223,7 +225,8 @@
                         <a href="{{ route('admin.user.edit', ['user' => $users->id]) . '?section=profile' }}" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
                     @endif
 
-                    @if( ($users->id != 1 && $users->id != 2))
+                    @if($users->id == 1 || $users->id == 2)
+                    @else
                     <a href="#deleteEmployeeModal" class="delete" data-user="{{ $users->name }}" data-whatever="{{ $users->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
                     @endif
                 </td>
@@ -245,11 +248,13 @@
         'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
     ]
 ])
+
+@include('adm.layouts.modal.delete');
 @endsection
 
 @section('scripts')
 <script>
-$('#deleteEmployeeModal').on('show.bs.modal', function (event) {
+$('#deleteEmployeeModal').on('shown.bs.modal', function (event) {
     var submit = $(this).find('#delete');
     var button = $(event.relatedTarget);
     var user_id = button.data('whatever');

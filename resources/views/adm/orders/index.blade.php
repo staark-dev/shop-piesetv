@@ -54,8 +54,8 @@
                 <h2>Detalii <b>Comenzii</b></h2>
             </div>
             <div class="col-sm-8">						
-                <a href="#" class="btn btn-primary"><i class="material-icons"></i> <span>Refresh List</span></a>
-                <a href="#" class="btn btn-info"><i class="material-icons"></i> <span>Export to Excel</span></a>
+                <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> <span>Lista de actualizare</span></a>
+                <a href="#" class="btn btn-info"><span class="glyphicon glyphicon-file"></span> <span>Exportați în Excel</span></a>
             </div>
         </div>
     </div>

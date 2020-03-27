@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['categories','subCategories'])->orderBy('id', 'desc')->get();
+        $products = Product::with(['categories','subCategories'])->orderBy('id', 'desc')->paginate(5);
         return view('adm.product.index', compact('products'));
     }
 
@@ -158,7 +158,7 @@ class ProductController extends Controller
     {
         $cat = \App\Categories::with('sub_categories')->get();
         $product = Product::with(['categories', 'subCategories'])->where('id', $id)->first();
-        // dd($cat);
+        
         return view('adm.product.edit', compact('cat', 'product'));
     }
 

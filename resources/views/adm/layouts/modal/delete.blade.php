@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="icon-box">
-					<i class="material-icons">&#xE5CD;</i>
+					<span class="glyphicon glyphicon-remove"></span>
 				</div>				
 				<h4 class="modal-title">Esti sigur?</h4>	
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

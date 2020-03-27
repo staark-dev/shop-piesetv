@@ -1,130 +1,232 @@
 @extends('adm.layouts.body')
 
+{{-- Add custom CSS to head on base template --}}
+@section('customcss')
+<link rel="stylesheet" href="{{ asset('adm/css/modals.css') }}">
+
+<style>
+.table-wrapper {
+    background: #fff;
+    padding: 20px 25px;
+    margin: 30px auto;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.table-title {
+    color: #fff;
+    background: #f0ad4ed6;
+    padding: 16px 25px;
+    margin: -20px -25px 10px;
+    border-radius: 3px 3px 0 0;
+}
+
+.table-title h2 {
+    margin: 5px 0 0;
+    font-size: 24px;
+}
+
+.table-title .btn {
+    font-size: 13px;
+    border: none;
+}
+
+.table-wrapper .btn {
+    float: right;
+    color: #333;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    outline: none !important;
+    margin-left: 10px;
+}
+
+.table-wrapper .btn.btn-primary {
+    color: #fff;
+    background: #5cb85c;
+}
+
+table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+table.table td a.delete {
+    color: #F44336;
+    font-size: 15px;
+}
+
+table.table td  a.edit {
+    font-size: 15px;
+    color: #f0ad4e;
+} 
+
+table.table td  a.view {
+    font-size: 15px;
+}
+
+table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fcfcfc;
+}
+
+table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.pagination {
+    float: right;
+    margin: 0 0 5px !important;
+}
+
+.pagination li a, .pagination li span {
+    border: none;
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
+    color: #999;
+    margin: 0 2px;
+    line-height: 30px;
+    border-radius: 2px !important;
+    text-align: center;
+    padding: 0 6px;
+}
+.pagination li a:hover {
+    color: #666;
+}	
+.pagination li.active a, .pagination li.active a.page-link {
+    background: #03A9F4;
+}
+.pagination li.active a:hover {        
+    background: #0397d6;
+}
+.pagination li.disabled i {
+    color: #ccc;
+}
+.pagination li i {
+    font-size: 16px;
+    padding-top: 6px
+}
+
+.pagination li.active a, .pagination li.active a.page-link {
+    background: #03A9F4;
+}
+
+.hint-text {
+    float: left;
+    margin-top: 10px;
+    font-size: 13px;
+}
+</style>
+@endsection
+
 @section('content')
-<div class="row">
-    <div class="col-lg-6">
-        <div class="pull-left" style="padding: 20px 0;">
-            <div class="panel-title" style="float: left;line-height: 0;font-size: 30px;margin-right: 10px;">
-                <span class="glyphicon glyphicon-list-alt"></span> <h4 style="font-size: 24px;font-weight: 800;float: right;margin-left: 5px;margin-top: 1px;">Produse</h4>
+@if (session('noAccess'))
+<div class="alert alert-warning">
+    {{ session('noAccess') }}
+</div>
+@endif
+
+@if (session('status'))
+<div class="alert alert-success">
+    {{ session('status') }}
+</div>
+@endif
+
+<div class="table-wrapper table-responsive">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Gestionează <b>Produse</b></h2>
             </div>
-            <a href="{{ route('admin.product.create') }}" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus-sign"></i> Adauga Nou</a>
-            <a href="#" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i> Sterge tot</a>
+            <div class="col-sm-8">
+                <a href="{{ route('admin.product.create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <span>Adauga Produs</span></a>
+                <a href="#myModal" class="btn btn-danger" data-toggle="modal"><span class="glyphicon glyphicon-minus-sign"></span> <span>Stege tot</span></a>
+            </div>
         </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th style="width: 250px;">Nume</th>
+                <th style="width: 60px;">URL</th>
+                <th>Categorie</th>
+                <th>Pret</th>
+                <th>Cantitate</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->id }}</td>
+                    <td>
+                        <img src="{{ Storage::disk('public')->url('images/items/' . $product->image) }}" alt="" style="border-radius: 10%;vertical-align: middle;margin-right: 10px;width: 70px;" />
+                        <span class="prod-title">{{ $product->title }}</span>
+                    </td>
+                    <td>{{ route('product.view', ['slug' => $product->slug]) }}</td>
+                    <td>{{ $product->categories->name }}</td>
+                    <td>{{ $product->price }} RON</td>
+                    <td>{{ $product->stock }} buc.</td>
+                    <td>
+                        <a href="{{ route('admin.product.show', ['product' => $product->id]) }}" class="view"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;
+                        <a href="{{ route('admin.product.edit', ['product' => $product->id]) }}" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
+                        <a href="#deleteProductModal" class="delete" data-product="{{ $product->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <div class="clearfix">
+        <div class="hint-text">Afișând <b>{{ $products->count() }}</b> din <b>{{ $products->total() }}</b> de înregistrări</div>
+        {{ $products->links() }}
     </div>
 </div>
-    <div class="content-box-large mt-5">
-        <div class="panel-body">
-            @php
-            foreach ($products as $item) {
-                $data2[] = [
-                    'checkbox' => '<input data-index="'. $item->id .'" name="btSelectItem" type="checkbox">',
-                    'id' => $item->id,
-                    'name' => $item->title,
-                    'slug' => $item->slug,
-                    'cat' => $item->categories->name,
-                    'price' => $item->price . ' RON',
-                    'stock' => $item->stock . ' buc.',
-                    'action' => '
-                        <a data-toggle="modal" href="#" data-whatever="'. $item->id .'" data-target="#deleteProduct" class="btn btn-sm btn-danger" style="float: right;margin-bottom: 5px;"><i class="glyphicon glyphicon-remove"></i> Delete</a>
-                        <a style="margin-bottom: 2px;float: right;clear: both;" href="https://upgrade.shop-piesetv.ro/admin/product/'. $item->id .'/edit" class="btn btn-sm btn-info" style="margin-bottom: 2px;"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a style="float: right;margin-bottom: 2px;margin-right: 5px;" href="https://upgrade.shop-piesetv.ro/admin/product/'. $item->id .'" class="btn btn-sm btn-warning" style="float: left; margin-bottom: 2px;"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                    '
-                ];
-            }
-            @endphp
-            <table id="table" data-toggle="table" data-pagination="true" data-search="true"></table>
-        </div>
-    </div>
+
+@include('adm.layouts.modal.master', [
+    'modal' => [
+        'id' => 'deleteProductModal',
+        'title' => 'Sterge un produs',
+        'body' => 'Esti sigut ca vrei sa stergi acest produs ?<br /><span class="user_msg"></span>Aceasta actiune face ca datele sa nu mai pot fii recuperate.',
+        'btn' => '<button class="btn btn-sm btn-danger" id="delete">Sterge</button>'
+    ]
+])
+
+@include('adm.layouts.modal.delete');
 @endsection
 
 @section('scripts')
-<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="deleteProduct" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Stergere produs</h4>
-        </div>
-        <div class="modal-body">
-            <h3>Esti sigur ca vrei sa stergi acest produs ?</h3>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" id="delete" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-</div>
-
-<style>
-table#table th {
-    background: #74b9ce26;
-    font-size: 14px;
-    color: #15395f;
-}
-</style>
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 <script>
-$('#table').bootstrapTable({
-    classes: 'table table-hover',
-    sortOrder: 'desc',
-    sortName: 'name',
-    searchAlign: 'right',
-    showRefresh: true,
-    pagination: true,
-    sortStable: true,
-    showButtonIcons: true,
-    columns: [{
-        checkbox: true,
-        title: ''
-    }, {
-        field: 'id',
-        title: 'ID'
-    }, {
-        field: 'name',
-        title: 'Nume Produs',
-        width: '240px'
-    }, {
-        field: 'slug',
-        title: 'URL Produs'
-    }, {
-        field: 'cat',
-        title: 'Categorie'
-    }, {
-        field: 'price',
-        title: 'Pret'
-    }, {
-        field: 'stock',
-        title: 'Stock'
-    }, {
-        field: 'action',
-        title: 'Actiuni',
-        width: '150px'
-    }],
-    data: @php print_r (json_encode($data2)) @endphp
-});
-
-$('#deleteProduct').on('shown.bs.modal', function (event) {
+$('#deleteProductModal').on('shown.bs.modal', function (event) {
     var submit = $(this).find('#delete');
     var button = $(event.relatedTarget);
-    var idProduct = button.data('whatever');
+    var product_id = button.data('product');
+    
+    $(this).find(".modal-title").text('Stergere produs');
+    
     var parent = $(this);
     submit.on('click', function() {
         $.ajax({
             type: 'POST',
-            url: '/admin/product/' + idProduct,
+            url: '/admin/product/' + product_id,
             data: {
                 '_token': $('meta[name="csrf-token"]').attr('content'),
                 '_method': 'DELETE'
             },
             success: function(result) {
-                console.log(result);
                 parent.modal('hide');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
             }
         });
     });

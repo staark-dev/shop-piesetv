@@ -17,7 +17,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $cat = Categories::with('sub_categories')->get();
+        $cat = Categories::with('sub_categories')->paginate(5);
         //dd($cat);
         return view('adm.cat.index', compact('cat'));
     }

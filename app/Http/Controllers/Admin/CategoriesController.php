@@ -83,7 +83,17 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $cat = Categories::find($id);
+        $cat->name = $request->cat_name;
+        if($request->cat_slug != $cat->slug) {
+            $cat->slug = $request->cat_slug;
+        } else {
+            $cat->slug = Str::slug($request->cat_name, '-');
+        }
+        $cat->save();
+        
+        return redirect()->route('admin.cat.index')->with('status', 'Categoria '. $cat->name .' a fost modificata cu succes !');
     }
 
     /**
@@ -120,5 +130,29 @@ class CategoriesController extends Controller
     public function sub_destroy($id)
     {
         
+    }
+
+    public function sub_update(Request $request, $id)
+    {
+        $cat = SubCategories::find($id);
+        $parent = Categories::find($cat->categories_id);
+
+        $cat->name = $request->cat_name;
+        if($request->cat_slug != $cat->slug) {
+            $cat->slug = $request->cat_slug;
+        } else {
+            $cat->slug = Str::slug($request->cat_name, '-');
+        }
+
+        if($request->parent != $parent->name) {
+            $new = Categories::where('name', '=', $request->parent)->first();
+            $cat->categories()->detach($parent->id);
+            $cat->categories()->attach($new->id);
+            $cat->categories_id = $new->id;
+        } else {
+
+        }
+
+        $cat->save();
     }
 }

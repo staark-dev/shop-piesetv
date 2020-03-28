@@ -109,12 +109,19 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $errors = null;
         if(Auth::user()->id != 1 && $id == 1) {
             return redirect()->route('admin.user.index')->with('noAccess', '(!) Nu ai dreptul de a edita un cont de developer.');
         }
 
-        if(Auth::user()->id != 1 || Auth::user()->id != 2 && $id == 2) {
-            return redirect()->route('admin.user.index')->with('noAccess', '(!) Nu ai dreptul de a edita un cont de CEO.');
+        if( (Auth::user()->id != 1 || Auth::user()->id != 2) && $id == 2) {
+            if( (Auth::user()->id == 2 && $id == 2) || (Auth::user()->id == 1 && $id == 1)) {
+                $errors = true;
+            } elseif(Auth::user()->id == 1 && $id == 2) {
+                $errors = true;
+            } else {
+                return redirect()->route('admin.user.index')->with('noAccess', '(!) Nu ai dreptul de a edita un cont de CEO.');
+            }
         }
 
         if($request->only('page_profile'))
@@ -168,6 +175,15 @@ class UsersController extends Controller
 
         if($request->only('page_roles'))
         {
+            if(isset($errors) && $errors == true) {
+                $user = User::find($id);
+                $user->roles()->detach($user->role_id);
+                $user->roles()->attach($request->roles);
+                $user->role_id = $request->roles;
+                $user->save();
+                return redirect()->route('admin.user.index')->with('status', 'Contul utilizatorului actualizat cu succes !');
+            }
+
             $user = User::find($id);
             $user->roles()->detach($user->role_id);
             $user->roles()->attach($request->roles);
@@ -204,9 +220,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->roles()->detach();
-        $user->delete();
+        if($id != 1 && $id != null) {
+            $user = User::find($id);
+            $user->roles()->detach();
+            $user->delete();
+        }
     }
 
     public function activate(Request $request, $id)

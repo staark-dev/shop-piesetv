@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowProductsTable extends Migration
+class CreateAddCosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFollowProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('follow_products', function (Blueprint $table) {
+        Schema::create('add_cos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->nullable();
             $table->ipAddress('user')->nullable();
@@ -29,6 +29,6 @@ class CreateFollowProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('follow_products');
+        Schema::dropIfExists('add_cos');
     }
 }

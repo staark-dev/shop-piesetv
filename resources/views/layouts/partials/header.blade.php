@@ -41,8 +41,8 @@
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="widgets-wrap float-md-right">
                         <div class="widget-header  mr-3">
-                            <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                            <span class="badge badge-pill badge-danger notify">0</span>
+                            <a href="{{ route('cart.index') }}" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
+                            <span class="badge badge-pill badge-danger notify">{{ Cache::get('cart_items', '0') }}</span>
                         </div>
 
                         @guest
@@ -55,7 +55,7 @@
                         <div class="widget-header icontext">
                             <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
                             <div class="text">
-                                <span class="text-muted">Salut, @guest Guest @else {{ Auth::user()->name }} @endguest</span>
+                                <span class="text-muted">Salut, @guest Vizitator @else {{ Auth::user()->name }} @endguest</span>
                                 @guest
                                 <div>
                                     <a href="{{ route('login') }}">{{ __('Login') }}</a> @if (Route::has('register'))|  
@@ -63,7 +63,7 @@
                                 </div>
                                 @else
                                 <div>
-                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle"> Cont-ul Meu </a>
+                                    <a href="/myaccount" data-toggle="dropdown" class="dropdown-toggle"> Cont-ul Meu </a>
                                     <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px;">
                                         <li><a class="dropdown-item" href="{{ route('user.profile') }}">Contul meu</a></li>
                                         <li><a class="dropdown-item" href="#">Comenziile mele</a></li>

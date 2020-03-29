@@ -8,6 +8,14 @@ Route::get('/rules-and-terms', 'HomeController@index');
 Route::get('/about', 'HomeController@index');
 Route::get('/faq', 'HomeController@livrare')->name('faq');
 
+Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], function () {
+    Route::get('/', 'AddCartController@index')->name('index');
+    Route::get('/add/{product}', 'AddCartController@store')->name('store');
+    Route::post('/add/{product}', 'AddCartController@store')->name('store');
+    Route::put('/update/{id}', 'AddCartController@update')->name('update');
+    Route::delete('/delete/{id}', 'AddCartController@destroy')->name('delete');
+});
+
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/user/myaccount', function () {

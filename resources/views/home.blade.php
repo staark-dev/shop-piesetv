@@ -18,7 +18,7 @@
         <div class="container">
             <header class="section-heading">
                 <h3 class="section-title">Random products</h3>
-            </header><!-- sect-heading -->
+            </header>
             <div class="row">
                 @foreach ($products as $item)
                     <div class="col-md-3">
@@ -28,7 +28,7 @@
                                 <a href="{{ route('product.view', ['slug' => $item->slug]) }}" class="title">{{ $item->title }}</a>
                                 <div class="mt-2">
                                     <var class="price">${{ $item->price }}</var>
-                                    <a href="#" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
+                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </figcaption>
                         </div>

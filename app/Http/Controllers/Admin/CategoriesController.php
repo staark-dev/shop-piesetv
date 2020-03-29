@@ -18,7 +18,6 @@ class CategoriesController extends Controller
     public function index()
     {
         $cat = Categories::with('sub_categories')->paginate(5);
-        //dd($cat);
         return view('adm.cat.index', compact('cat'));
     }
 
@@ -59,17 +58,6 @@ class CategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return view('adm.cat.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         return view('adm.cat.index');
     }

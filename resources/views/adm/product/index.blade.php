@@ -224,9 +224,7 @@ $('#deleteProductModal').on('shown.bs.modal', function (event) {
             },
             success: function(result) {
                 parent.modal('hide');
-                setTimeout(function() {
-                    window.location.reload();
-                }, 2000);
+                window.location.reload();
             }
         });
     });

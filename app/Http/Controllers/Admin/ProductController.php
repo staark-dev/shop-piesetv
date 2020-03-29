@@ -183,7 +183,22 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+
         $product->subCategories()->detach($id);
+        
+        if($product->image != null) {
+            Storage::disk('public')->delete('images/items/' . $product->image);
+        }
+
+        if(count(json_decode($product->gallery, true)) != 0) {
+            foreach(json_decode($product->gallery, true) as $key => $value) {
+                $data[] = "images/items/" . $value;
+            }
+            
+            Storage::disk('public')->delete([implode(',', $data)]);
+        }
+
         $product->delete();
+        return "Succesfully";
     }
 }

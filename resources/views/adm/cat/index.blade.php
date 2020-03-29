@@ -354,7 +354,7 @@ $('#deleteSubCategoriesModal').on('shown.bs.modal', function (event) {
     submit.on('click', function() {
         $.ajax({
             type: 'POST',
-            url: 'admin/cat/sub/' + cat_id,
+            url: '/admin/cat/sub/' + cat_id,
             data: {
                 '_token': $('meta[name="csrf-token"]').attr('content'),
                 '_method': 'DELETE'

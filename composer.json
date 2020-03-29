@@ -16,6 +16,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.3",
         "laravel/ui": "^2.0",
+        "laravelcollective/html": "^6.1",
         "spatie/crawler": "^4.6",
         "spatie/laravel-sitemap": "^5.7"
     },

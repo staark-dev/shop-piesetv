@@ -58,17 +58,17 @@
                                 <div class="img-big-wrap">
                                 <div>
                                     <a href="#">
-                                        <img src="{{ $product->image }}">
+                                        <img src="{{ Storage::disk('public')->url('images/items/' . $product->image) }}">
                                     </a>
                                 </div>
                                 </div> <!-- slider-product.// -->
 
-                                @if(!empty($product->gallery))
+                                @if(!empty(json_decode($product->gallery)) && count(json_decode($product->gallery)) > 0)
                                 <div class="thumbs-wrap">
-                                    <a href="" class="item-thumb"> <img src="bootstrap-ecommerce-html/images/items/12.jpg"></a>
-                                    <a href="" class="item-thumb"> <img src="bootstrap-ecommerce-html/images/items/12-1.jpg"></a>
-                                    <a href="" class="item-thumb"> <img src="bootstrap-ecommerce-html/images/items/12-2.jpg"></a>
-                                </div> <!-- slider-nav.// -->
+                                    @foreach (json_decode($product->gallery) as $item)
+                                    <a href="#" class="item-thumb"> <img src="{{ Storage::disk('public')->url('images/items/' . $item) }}"></a>
+                                    @endforeach
+                                </div>
                                 @endif
 
                             </article> <!-- gallery-wrap .end// -->
@@ -78,47 +78,34 @@
                                 <h2 class="title">{{ $product->title }}</h2>
                             
                                 <div class="rating-wrap my-3">
-                                    <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
+                                    <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 0 orders </small>
                                 </div>
                             
                                 <div class="mb-3">
-                                    <var class="price h4">${{ $product->price }}</var>
-                                </div> <!-- price-detail-wrap .// -->
+                                    <var class="price h4">{{ $product->price }} Ron</var>
+                                </div>
                                 
-                                <p>Virgil Abloh’s Off-White is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown Odsy-1000 low-top sneakers.</p>
+                                <p>
+                                    {!! nl2br($product->description) !!}
+                                </p>
                                 
-                                
-                                <dl class="row">
-                                    <dt class="col-sm-3">Model#</dt>
-                                    <dd class="col-sm-9">A200 PSAE6E-06P00HGR</dd>
-                                
-                                    <dt class="col-sm-3">Color</dt>
-                                    <dd class="col-sm-9">Blue</dd>
-                                
-                                    <dt class="col-sm-3">Delivery</dt>
-                                    <dd class="col-sm-9">Europe</dd>
-                                </dl>
-
                                 <hr>
                                 <div class="form-row">
                                     <div class="col-2">
                                         <select class="form-control">
-                                              <option> 1 </option>
-                                              <option> 2 </option>
-                                              <option> 3 </option>
-                                          </select>
-                                    </div> <!-- col.// -->
-                                     <!-- col.// -->
-                                    <div class="col">
-                                        <a href="#" class="btn  btn-primary w-100"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
-                                    </div> <!-- col.// -->
-                                    <div class="col">
-                                        <a href="#" class="btn  btn-light"> <i class="fas fa-heart"></i>  </a>
-                                    </div> <!-- col.// -->
+                                            @for ($i = 1; $i < $product->stock+1; $i++)
+                                                <option value="{{ $i }}">{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <a href="{{ route('cart.store', ['product' => $product->id]) }}" class="btn  btn-primary w-100"> <span class="text">Adauga in cos</span> <i class="fas fa-shopping-cart"></i>  </a>
+                                    </div>
                                 </div>
-                            </article> <!-- product-info-aside .// -->
-                        </main> <!-- col.// -->
-                    </div> <!-- row.// -->
+                            </article>
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>

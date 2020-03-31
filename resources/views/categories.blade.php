@@ -57,7 +57,7 @@
                         <header class="card-header">
                             <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
                                 <i class="icon-control fa fa-chevron-down"></i>
-                                <h6 class="title">Product type</h6>
+                                <h6 class="title">Sub Categorii</h6>
                             </a>
                         </header>
                         <div class="filter-content collapse show" id="collapse_1" style="">
@@ -85,7 +85,7 @@
                         <header class="card-header">
                             <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
                                 <i class="icon-control fa fa-chevron-down"></i>
-                                <h6 class="title">Price range </h6>
+                                <h6 class="title">Raza Pret</h6>
                             </a>
                         </header>
                         <div class="filter-content collapse show" id="collapse_3" style="">
@@ -94,14 +94,14 @@
                                 <div class="form-row">
                                 <div class="form-group col-md-6">
                                   <label>Min</label>
-                                  <input class="form-control" placeholder="$0" type="number">
+                                  <input class="form-control" placeholder="0 Ron" type="number">
                                 </div>
                                 <div class="form-group text-right col-md-6">
                                   <label>Max</label>
-                                  <input class="form-control" placeholder="$1,0000" type="number">
+                                  <input class="form-control" placeholder="2,000 Ron" type="number">
                                 </div>
                                 </div> <!-- form-row.// -->
-                                <button class="btn btn-block btn-primary">Apply</button>
+                                <button class="btn btn-block btn-primary">Aplica</button>
                             </div><!-- card-body.// -->
                         </div>
                     </article>
@@ -128,10 +128,10 @@
                                 <div class="fix-height">
                                     <a href="#" class="title">{{ $products->name }}</a>
                                     <div class="price-wrap mt-2">
-                                        <span class="price">${{ $products->price }}</span>
+                                        <span class="price">{{ $products->price }} Ron</span>
                                     </div> <!-- price-wrap.// -->
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                <a href="{{ route('cart.store', ['product' => $products->id]) }}" class="btn btn-block btn-primary">Adauga in cos</a>
                             </figcaption>
                         </figure>
                     </div>

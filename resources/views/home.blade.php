@@ -27,8 +27,8 @@
                             <figcaption class="info-wrap">
                                 <a href="{{ route('product.view', ['slug' => $item->slug]) }}" class="title">{{ $item->title }}</a>
                                 <div class="mt-2">
-                                    <var class="price">${{ $item->price }}</var>
-                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
+                                    <var class="price">{{ $item->price }} Ron</var>
+                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-outline-primary float-right">Adauga in cos <i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </figcaption>
                         </div>

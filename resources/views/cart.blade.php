@@ -15,8 +15,10 @@ $totalPrice = 0;
 <section class="section-content padding-y">
     <div class="container">
         <div class="row">
-            <main class="col-md-9">
+            
+            <main class="@if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )col-md-9 @else col-md-12 @endif">
                 <div class="card">
+                    @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
                     <table class="table table-borderless table-shopping-cart">
                         <thead class="text-muted">
                             <tr class="small text-uppercase">
@@ -27,9 +29,9 @@ $totalPrice = 0;
                             </tr>
                         </thead>
                         <tbody>
-                            @if($cart->count() > 0)
-                            @foreach (json_decode($cart[0]->product_info) as $key => $value)
-                                @foreach ($value as $item)
+                            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
+                            @foreach (json_decode($cart->product_info) as $key => $value)
+                                @foreach ($value as $keys => $item)
                                 @php
                                     $totalPrice += $item->price;
                                 @endphp
@@ -38,7 +40,7 @@ $totalPrice = 0;
                                         <figure class="itemside">
                                             <div class="aside"><img src="{{ Storage::disk('public')->url('images/items/' . $item->image) }}" class="img-sm"></div>
                                             <figcaption class="info">
-                                                <a href="#" class="title text-dark">{{ $item->name }}</a>
+                                                <a href="{{ route('product.view', ['slug' => \Str::slug($item->name, '-') ]) }}" class="title text-dark">{{ $item->name }}</a>
                                             </figcaption>
                                         </figure>
                                     </td>
@@ -52,9 +54,15 @@ $totalPrice = 0;
                                             <var class="price">{{ $item->price }} Ron</var>
                                         </div>
                                     </td>
-                                    <td class="text-right"> 
-                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-                                        <a href="" class="btn btn-light"> Remove</a>
+                                    <td class="text-right">
+                                        {{ Form::open(array('', 'method' => 'POST')) }}
+                                        {!! Form::submit('&hearts;', array('class' => 'btn btn-light')) !!}
+                                        {{ Form::close() }}
+
+                                        {{ Form::open(array('route' => array('cart.delete', 'id' => $keys), 'method' => 'DELETE')) }}
+                                        
+                                        {{ Form::submit('Sterge', array('class' => 'btn btn-light')) }}
+                                        {{ Form::close() }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,13 +70,17 @@ $totalPrice = 0;
                             @endif
                         </tbody>
                     </table>
+                    @else
+                    <p class="card-body">Cosul dumneavoastra de cumparaturi este gol.<br>Pentru a adauga produse in cos va rugam sa va intoarceti in magazin si selectati <u>Adauga in cos</u> in pagina de produs.</p>
+                    @endif
                     <div class="card-body border-top">
-                        <a href="#" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>
+                        @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )<a href="#" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>@endif
                         <a href="{{ route('home') }}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continua cumparaturile</a>
                     </div>
                 </div>
             </main>
 
+            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
             <aside class="col-md-3">
                 <div class="card mb-3">
                     <div class="card-body" style="display: none">
@@ -102,6 +114,7 @@ $totalPrice = 0;
                     </div>
                 </div>
             </aside>
+            @endif
         </div>
     </div>
 </section>

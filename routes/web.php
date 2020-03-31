@@ -13,7 +13,7 @@ Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], func
     Route::get('/add/{product}', 'AddCartController@store')->name('store');
     Route::post('/add/{product}', 'AddCartController@store')->name('store');
     Route::put('/update/{id}', 'AddCartController@update')->name('update');
-    Route::delete('/delete/{id}', 'AddCartController@destroy')->name('delete');
+    Route::delete('/remove/{id}', 'AddCartController@destroy')->name('delete');
 });
 
 Auth::routes();

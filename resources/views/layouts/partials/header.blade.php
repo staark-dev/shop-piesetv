@@ -1,12 +1,21 @@
 <header class="section-header">
     <nav class="navbar navbar-dark navbar-expand p-0 bg-primary">
         <div class="container">
+            <ul class="nav mr-auto d-none d-md-flex">
+                <li><a href="https://www.facebook.com/shop.piesetv" class="nav-link px-2"> <i class="fab fa-facebook"></i> </a></li>
+                <li><a href="https://www.instagram.com/shop.piesetv/" class="nav-link px-2"> <i class="fab fa-instagram"></i> </a></li>
+            </ul>
+            {{-- 
             <ul class="navbar-nav d-none d-md-flex mr-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Acasa</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('faq') }}">Livrare & Metode de plata</a></li>
             </ul>
+            --}}
+
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="#" class="nav-link"> Call: +40749943605 </a></li>
+                <li class="nav-item"><a href="{{ route('faq') }}" class="nav-link"> Livrare </a></li>
+                <li class="nav-item"><a href="#" class="nav-link"> Ajutor </a></li>
+                {{-- <li class="nav-item"><a href="#" class="nav-link"> Call: No Phone Give </a></li>
                 <li class="nav-item dropdown">
                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> Romana </a>
                     <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px;">
@@ -14,6 +23,7 @@
                         <li><a class="dropdown-item" href="#">Russian </a></li>
                     </ul>
                 </li>
+                --}}
             </ul>
         </div>
     </nav>
@@ -45,13 +55,6 @@
                             <span class="badge badge-pill badge-danger notify">{{ Cache::get('cart_items', '0') }}</span>
                         </div>
 
-                        @guest
-                        @else
-                        <div class="widget-header mr-3">
-                            <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-heart"></i></a>
-                            <span class="badge badge-pill badge-danger notify">0</span>
-                        </div>
-                        @endguest
                         <div class="widget-header icontext">
                             <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
                             <div class="text">

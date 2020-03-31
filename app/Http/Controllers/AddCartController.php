@@ -11,15 +11,33 @@ use App\Product;
 use App\Cart;
 use Illuminate\Support\Arr;
 
+function getRealIpAddr()
+{
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    {
+        $ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    {
+        $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+        $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
 class AddCartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'store']);
+        $this->middleware('auth')->except(['index', 'store', 'destroy']);
     }
 
     public function index()
     {
+        // Update cart products
         if(Auth::check()) {
             $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
             Cache::forget('cart_items');
@@ -31,13 +49,29 @@ class AddCartController extends Controller
             if($cart->count() > 0) Cache::add('cart_items', count(json_decode($cart[0]->product_info, true)));
         }
 
+        // Get all item for user in cart
         if(Auth::check()) {
             $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
-            return view('cart', compact('cart'));
+
+            if($cart->count() > 0) {
+                $cart = $cart[0];
+                return view('cart', compact('cart'));
+            } else {
+                $cart = $this->emptyCart();
+                return view('cart', compact('cart'));
+            }
+
         } else {
             $ip = request()->ip();
             $cart = Cart::where('user', '=', $this->getRealIpAddr())->get();
-            return view('cart', compact('cart'));
+
+            if($cart->count() > 0) {
+                $cart = $cart[0];
+                return view('cart', compact('cart'));
+            } else {
+                $cart = $this->emptyCart();
+                return view('cart', compact('cart'));
+            }
         }
     }
 
@@ -56,6 +90,20 @@ class AddCartController extends Controller
           $ip=$_SERVER['REMOTE_ADDR'];
         }
         return $ip;
+    }
+
+    private function emptyCart()
+    {
+        $no_db = new \stdClass();
+        $no_db->id = null;
+        $no_db->user_id = null;
+        $no_db->user = null;
+        $no_db->product_info = json_encode([(object)[]]);
+        $no_db->created_at = null;
+        $no_db->updated_at = null;
+
+
+        return $no_db;
     }
 
     public function store(Request $request, $product)
@@ -219,6 +267,48 @@ class AddCartController extends Controller
 
     public function destroy($id)
     {
-        //
+        if(Auth::check())
+        {
+            $cart = Cart::where('user_id', '=', Auth::user()->id)->first();
+            $data = json_decode($cart->product_info, true);
+            // Store new data
+            $result = [];
+
+            foreach($data as $key => $value) {
+                if(Arr::has($value, $id)) {
+                    print("Remove item " . $id . " with key " . $key);
+                    unset($data[$key]);
+                }
+
+                $result += $data;
+            }
+
+            Cart::whereId($cart->id)->update([
+                'product_info' => json_encode($data, 0)
+            ]);
+
+            return redirect()->route('cart.index');
+        } else {
+            $cart = Cart::where('user', '=', getRealIpAddr())->first();
+            $data = json_decode($cart->product_info, true);
+
+            // Store new data
+            $result = [];
+
+            foreach($data as $key => $value) {
+                if(Arr::has($value, $id)) {
+                    print("Remove item " . $id . " with key " . $key);
+                    unset($data[$key]);
+                }
+
+                $result += $data;
+            }
+
+            Cart::whereId($cart->id)->update([
+                'product_info' => json_encode($data, 0)
+            ]);
+
+            return redirect()->route('cart.index');
+        }
     }
 }

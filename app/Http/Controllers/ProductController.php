@@ -9,7 +9,9 @@ class ProductController extends Controller
 {
     public function index($slug)
     {
-        $product = Product::with('categories')->where('slug', '=', $slug)->first();
-        return view('product', compact('product'));
+        $product = Product::with('categories')->where('slug', '=', $slug)->get()[0];
+        //dd($product);
+        $categories = $product->categories;
+        return view('product', compact('product', 'categories'));
     }
 }

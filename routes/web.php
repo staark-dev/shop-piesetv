@@ -8,12 +8,17 @@ Route::get('/rules-and-terms', 'HomeController@index');
 Route::get('/about', 'HomeController@index');
 Route::get('/faq', 'HomeController@livrare')->name('faq');
 
+Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback')->name('fb.login.back');
+
 Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], function () {
     Route::get('/', 'AddCartController@index')->name('index');
     Route::get('/add/{product}', 'AddCartController@store')->name('store');
     Route::post('/add/{product}', 'AddCartController@store')->name('store');
     Route::put('/update/{id}', 'AddCartController@update')->name('update');
     Route::delete('/remove/{id}', 'AddCartController@destroy')->name('delete');
+    Route::get('/procced', 'AddCartController@placeOrder')->name('order.place');
+    Route::post('/procced/complete', 'AddCartController@orderComplete')->name('order.complete');
 });
 
 Auth::routes();

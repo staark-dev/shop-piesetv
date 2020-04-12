@@ -41,4 +41,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role', 'role_user_table', 'user_id', 'role_id');
     }
+
+    public function online()
+    {
+        return $this->hasMany('App\Online');
+    }
+
+    public function scopeGetName($query, $id)
+    {
+        return $query->where('id', '=', $id)->first()->name;
+    }
 }

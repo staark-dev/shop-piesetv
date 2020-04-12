@@ -9,6 +9,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Product;
 use App\Cart;
+use App\User;
 use Illuminate\Support\Arr;
 
 function getRealIpAddr()
@@ -32,7 +33,7 @@ class AddCartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'store', 'destroy']);
+        $this->middleware('auth')->except(['index', 'store', 'destroy', 'placeOrder', 'update']);
     }
 
     public function index()
@@ -106,6 +107,11 @@ class AddCartController extends Controller
         return $no_db;
     }
 
+    /**
+     * Salvare produse in cos
+     * @param ('product')
+     * @return array
+    */
     public function store(Request $request, $product)
     {
         $item = Product::with(['categories', 'subCategories'])->find($product);
@@ -122,6 +128,7 @@ class AddCartController extends Controller
                     [
                         'image' => $item->image,
                         'name' => $item->title,
+                        'url' => $item->slug,
                         'quantity' => 1,
                         'price' => $item->price
                     ]
@@ -159,6 +166,7 @@ class AddCartController extends Controller
                         [
                             'image' => $item->image,
                             'name' => $item->title,
+                            'url' => $item->slug,
                             'quantity' => 1,
                             'price' => $item->price
                         ]
@@ -170,33 +178,6 @@ class AddCartController extends Controller
 
                     return redirect()->route('cart.index');
                 }
-                
-                /*if(isset($produsGet[''.$produsText.'']))
-                {
-                    dd($produsGet[''.$produsText.'']);
-                    if(count($produsGet[''.$produsText.'']) > 0) {
-                        Cart::whereId($cart->id)->update([
-                            'product_info->' . $produsText . '->quantity' => $produsGet[''.$produsText.'']['quantity'] + 1,
-                            'product_info->' . $produsText . '->price' => $produsGet[''.$produsText.'']['price'] + $item->price
-                        ]);
-                    } else {
-                        dd("  ");
-                        $produs = ['produs_'.$item->id =>
-                            [
-                                'image' => $item->image,
-                                'name' => $item->title,
-                                'quantity' => 1,
-                                'price' => $item->price
-                            ]
-                        ];
-
-                        Cart::whereId($cart->id)->update([
-                            'product_info' => $cart->product_info[count($cart->product_info)] . ', ' . json_encode($produs)
-                        ]);
-                    }
-                }*/
-
-                //return redirect()->route('cart.index');
             }
         } else {
             // Check in db exists or not this product.
@@ -208,6 +189,7 @@ class AddCartController extends Controller
                     [
                         'image' => $item->image,
                         'name' => $item->title,
+                        'url' => $item->slug,
                         'quantity' => 1,
                         'price' => $item->price
                     ]
@@ -245,6 +227,7 @@ class AddCartController extends Controller
                         [
                             'image' => $item->image,
                             'name' => $item->title,
+                            'url' => $item->slug,
                             'quantity' => 1,
                             'price' => $item->price
                         ]
@@ -265,6 +248,12 @@ class AddCartController extends Controller
         //
     }
 
+    /**
+     * Stergere produse din cos
+     * Curatare cos daca sunt produse
+     * @param 
+     * @return 
+    */
     public function destroy($id)
     {
         if(Auth::check())
@@ -309,6 +298,52 @@ class AddCartController extends Controller
             ]);
 
             return redirect()->route('cart.index');
+        }
+    }
+
+    /**
+     * Place order
+     */
+    public function placeOrder()
+    {
+        // Get all item for user in cart
+        if(Auth::check()) {
+            $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
+
+            if($cart->count() > 0) {
+                $cart = $cart[0];
+                return view('checkout', compact('cart'));
+            } else {
+                return redirect()->route('home');
+            }
+
+        } else {
+            $ip = request()->ip();
+            $cart = Cart::where('user', '=', $this->getRealIpAddr())->get();
+
+            if($cart->count() > 0) {
+                $cart = $cart[0];
+                return view('checkout', compact('cart'));
+            } else {
+                return redirect()->route('home');
+            }
+        }
+    }
+
+    public function orderComplete(Request $request)
+    {
+        $validator = $request->validate([
+            'Nume' => 'required|string|min:5',
+            'Prenume' => 'required|string|min:5',
+            'Telefon' => 'required|numeric|min:10',
+            'Adresa' => 'required|string|min:5',
+            'Oras' => 'required|string|min:4',
+            'Cod Postal' => 'required|numeric|min:6',
+            'Curier' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
     }
 }

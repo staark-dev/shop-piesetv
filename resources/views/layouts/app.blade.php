@@ -6,11 +6,17 @@
 
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="max-age=604800">
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="AdsBot-Google" content="noindex" />
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>{{ config('app.name') }}</title>
+    <meta name="msvalidate.01" content="B28FD7C549D0803D9B6C61176013B81F" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

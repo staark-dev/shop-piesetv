@@ -3,17 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
+use Carbon\Carbon;
+use Config;
 
 class Online extends Model
 {
+    protected $hidden = ['payload'];
+
     /**
-     * {@inheritDoc}
+     * The database table used by the model.
+     *
+     * @var string
      */
     public $table = 'sessions';
 
-    /**
-     * {@inheritDoc}
-     */
     public $timestamps = false;
 
     /**
@@ -24,7 +28,7 @@ class Online extends Model
      */
     public function scopeGuests($query)
     {
-        return $query->whereNull('user_id');
+        return $query->whereNull('user_id')->where('last_activity', '>=', strtotime(Carbon::now()->subMinutes(Config::get('custom.activity_limit'))));
     }
 
     /**
@@ -35,7 +39,7 @@ class Online extends Model
      */
     public function scopeRegistered($query)
     {
-        return $query->whereNotNull('user_id')->with('user');
+        return $query->whereNotNull('user_id')->where('last_activity', '>=', strtotime(Carbon::now()->subMinutes(Config::get('custom.activity_limit'))))->with('user');
     }
 
     /**
@@ -60,6 +64,6 @@ class Online extends Model
      */
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 }

@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('add_style')
+.table-shopping-cart td.text-right form {
+    float: left;
+    margin-right: 10px;
+}
+
+.table-shopping-cart .price {
+    min-width: 100px;
+}
+@endsection
+
 @section('header-banner')
 <section class="section-pagetop bg">
     <div class="container">
@@ -9,9 +20,7 @@
 @endsection
 
 @section('content')
-@php
-$totalPrice = 0;
-@endphp
+@php $totalPrice = 0; @endphp
 <section class="section-content padding-y">
     <div class="container">
         <div class="row">
@@ -40,7 +49,7 @@ $totalPrice = 0;
                                         <figure class="itemside">
                                             <div class="aside"><img src="{{ Storage::disk('public')->url('images/items/' . $item->image) }}" class="img-sm"></div>
                                             <figcaption class="info">
-                                                <a href="{{ route('product.view', ['slug' => \Str::slug($item->name, '-') ]) }}" class="title text-dark">{{ $item->name }}</a>
+                                                <a href="{{ route('product.view', ['slug' => $item->url ]) }}" class="title text-dark">{{ $item->name }}</a>
                                             </figcaption>
                                         </figure>
                                     </td>
@@ -56,12 +65,12 @@ $totalPrice = 0;
                                     </td>
                                     <td class="text-right">
                                         {{ Form::open(array('', 'method' => 'POST')) }}
-                                        {!! Form::submit('&hearts;', array('class' => 'btn btn-light')) !!}
+                                        {!! Form::submit('&hearts;', array('class' => 'btn btn-light', 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Salveaza pentru mai tarziu")) !!}
                                         {{ Form::close() }}
 
                                         {{ Form::open(array('route' => array('cart.delete', 'id' => $keys), 'method' => 'DELETE')) }}
                                         
-                                        {{ Form::submit('Sterge', array('class' => 'btn btn-light')) }}
+                                        {{ Form::submit('Sterge', array('class' => 'btn btn-light', 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Sterge acest produs din cos")) }}
                                         {{ Form::close() }}
                                     </td>
                                 </tr>
@@ -74,7 +83,7 @@ $totalPrice = 0;
                     <p class="card-body">Cosul dumneavoastra de cumparaturi este gol.<br>Pentru a adauga produse in cos va rugam sa va intoarceti in magazin si selectati <u>Adauga in cos</u> in pagina de produs.</p>
                     @endif
                     <div class="card-body border-top">
-                        @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )<a href="#" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>@endif
+                        @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )<a href="{{ route('cart.order.place') }}" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>@endif
                         <a href="{{ route('home') }}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continua cumparaturile</a>
                     </div>
                 </div>
@@ -118,4 +127,12 @@ $totalPrice = 0;
         </div>
     </div>
 </section>
+@endsection
+
+@section('scripts')
+    <script>
+        $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 @endsection

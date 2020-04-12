@@ -10,6 +10,8 @@ use App\Cart;
 use Spatie\Sitemap\SitemapGenerator;
 use Auth;
 use Cache;
+use App\Events\UpdateProductStock;
+use App\Events\OrderCreated;
 
 function getRealIpAddr()
 {
@@ -62,6 +64,9 @@ class HomeController extends Controller
             Cache::forget('cart_items');
             if($cart->count() > 0) Cache::add('cart_items', count(json_decode($cart[0]->product_info, true)));
         }
+
+        //event(new OrderCreated(1, Auth::user()->id));
+        //event(new UpdateProductStock(1, 1));
 
         return view('home', compact('products', 'headCat', 'allCat'));
     }

@@ -3,11 +3,11 @@
 @section('header-banner')
 <section class="section-pagetop bg">
     <div class="container">
-        <h2 class="title-page">Detalii Produs</h2>
+        <h2 class="title-page">Informatoii Produs</h2>
         <nav>
         <ol class="breadcrumb text-white">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">{{ $product->categories->name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('cat.view', ['slug' => $categories->slug]) }}">{{ $categories->name }}</a></li>
         </ol>  
         </nav>
     </div> <!-- container //  -->

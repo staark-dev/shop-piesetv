@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Listener;
+namespace App\Listeners;
 
-use App\Events\OrderCreated;
+use App\Events\UserViewProduct;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\UserHistory;
 
-class OrderCreatedListener
+class UserHistoryProducts
 {
     /**
      * Create the event listener.
@@ -21,11 +22,12 @@ class OrderCreatedListener
     /**
      * Handle the event.
      *
-     * @param  OrderCreated  $event
+     * @param  UserViewProduct  $event
      * @return void
      */
-    public function handle(OrderCreated $event)
+    public function handle(UserViewProduct $event)
     {
-        //
+        $log = new UserHistory;
+        $log->viewProduct($event->product);
     }
 }

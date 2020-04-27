@@ -11,6 +11,7 @@ use App\Product;
 use App\Cart;
 use App\User;
 use Illuminate\Support\Arr;
+use App\Events\UserAddtoCart;
 
 function getRealIpAddr()
 {
@@ -140,6 +141,8 @@ class AddCartController extends Controller
                 $cart->product_info = json_encode([$produs]);
                 $cart->save();
 
+                event(new UserAddtoCart($item));
+
                 return redirect()->route('cart.index');
             } else {
                 $cart = Cart::find($exists[0]->id)->toArray();
@@ -148,7 +151,6 @@ class AddCartController extends Controller
                 $findItem = null;
                 $findId = -1;
                 
-
                 // Find product is or not in cart
                 foreach($produsGet as $key => $data) {
                     if(Arr::has($data, $produsText))
@@ -176,6 +178,7 @@ class AddCartController extends Controller
                         'product_info' => json_encode($produsGet, 0)
                     ]);
 
+                    event(new UserAddtoCart($item));
                     return redirect()->route('cart.index');
                 }
             }
@@ -201,6 +204,7 @@ class AddCartController extends Controller
                 $cart->product_info = json_encode([$produs]);
                 $cart->save();
 
+                event(new UserAddtoCart($item));
                 return redirect()->route('cart.index');
             } else {
                 $cart = Cart::find($exists[0]->id)->toArray();
@@ -237,6 +241,7 @@ class AddCartController extends Controller
                         'product_info' => json_encode($produsGet, 0)
                     ]);
 
+                    event(new UserAddtoCart($item));
                     return redirect()->route('cart.index');
                 }
             }

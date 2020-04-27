@@ -19,16 +19,18 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        'Illuminate\Auth\Events\Login' => ['App\Listeners\LoginSuccess'],
+        
+        'App\Events\UserRegistered' => [
+            'App\Listeners\SendWelcomeEmail',
         ],
 
-        UpdateProductStock::class => [
-            UpdateProductStockListener::class,
+        'App\Events\UserViewProduct' => [
+            'App\Listeners\UserHistoryProducts',
         ],
 
-        OrderCreated::class => [
-            OrderCreatedListener::class,
+        'App\Events\UserAddtoCart' => [
+            'App\Listeners\UserCartUpdate',
         ],
     ];
 

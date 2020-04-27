@@ -108,6 +108,27 @@
                     </div>
                 </div>
             </div>
+
+            @if(isset($history) && $history->count() > 0)
+            <div class="col-md-12 col-sm-8 mt-5">
+                <h5>Istoric navigare</h5>
+                <div class="card card-body">
+                    <div class="row">
+                        @foreach($history as $products)
+                        <div class="col-md-3">
+                            <figure class="itemside mb-2">
+                                <div class="aside"><img src="{{ Storage::disk('public')->url('images/items/' . $product->getdata($products->product_id, 'image')) }}" class="border img-sm"></div>
+                                <figcaption class="info align-self-center">
+                                    <a href="{{ route('product.view', ['slug' => $product->getdata($products->product_id, 'slug')]) }}" class="title">{{ $product->getname($products->product_id) }}</a>
+                                    <strong class="price">{{ $product->getprice($products->product_id) }} RON</strong>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </section>

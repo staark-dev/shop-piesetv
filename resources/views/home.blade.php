@@ -13,6 +13,10 @@
 @endsection
 
 @section('content')
+@if(Session::has('message'))
+  <p class="alert alert-success">{{ Session::get('message') }}</p>
+@endif
+
 <section class="section-content padding-y" style="min-height:84vh">
     <section class="section-content">
         <div class="container">

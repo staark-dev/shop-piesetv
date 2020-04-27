@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Listener;
+namespace App\Listeners;
 
-use App\Events\UpdateProductStock;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class UpdateProductStockListener
+class ViewUserProduct
 {
     /**
      * Create the event listener.
@@ -21,10 +20,10 @@ class UpdateProductStockListener
     /**
      * Handle the event.
      *
-     * @param  UpdateProductStock  $event
+     * @param  object  $event
      * @return void
      */
-    public function handle(UpdateProductStock $event)
+    public function handle($event)
     {
         //
     }

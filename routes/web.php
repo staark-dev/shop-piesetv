@@ -11,6 +11,12 @@ Route::get('/faq', 'HomeController@livrare')->name('faq');
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback')->name('fb.login.back');
 
+Route::get('/search', function () {
+    return view('search');
+})->name('advance.search');
+
+Route::get('/search', 'SearchController@search')->name('search');
+
 Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], function () {
     Route::get('/', 'AddCartController@index')->name('index');
     Route::get('/add/{product}', 'AddCartController@store')->name('store');

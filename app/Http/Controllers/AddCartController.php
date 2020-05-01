@@ -39,18 +39,6 @@ class AddCartController extends Controller
 
     public function index()
     {
-        // Update cart products
-        if(Auth::check()) {
-            $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
-            Cache::forget('cart_items');
-            if($cart->count() > 0)  Cache::add('cart_items', count(json_decode($cart[0]->product_info, true) ));
-        } else {
-            $ip = getRealIpAddr();
-            $cart = Cart::where('user', '=', $ip)->get();
-            Cache::forget('cart_items');
-            if($cart->count() > 0) Cache::add('cart_items', count(json_decode($cart[0]->product_info, true)));
-        }
-
         // Get all item for user in cart
         if(Auth::check()) {
             $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
@@ -103,8 +91,7 @@ class AddCartController extends Controller
         $no_db->product_info = json_encode([(object)[]]);
         $no_db->created_at = null;
         $no_db->updated_at = null;
-
-
+        
         return $no_db;
     }
 

@@ -36,9 +36,9 @@
                 </div>
 
                 <div class="col-lg-6 col-12 col-sm-12">
-                    <form action="#" class="search">
+                    <form action="{{ route('search') }}" class="search">
                         <div class="input-group w-100">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" name="query" placeholder="Cauta produs ...">
                             <div class="input-group-append">
                               <button class="btn btn-primary" type="submit">
                                 <i class="fa fa-search"></i>
@@ -52,7 +52,7 @@
                     <div class="widgets-wrap float-md-right">
                         <div class="widget-header  mr-3">
                             <a href="{{ route('cart.index') }}" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                            <span class="badge badge-pill badge-danger notify">{{ Cache::get('cart_items', '0') }}</span>
+                            <span class="badge badge-pill badge-danger notify">{{ $check_cart }}</span>
                         </div>
 
                         <div class="widget-header icontext">

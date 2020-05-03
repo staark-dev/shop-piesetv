@@ -51,4 +51,55 @@ class User extends Authenticatable
     {
         return $query->where('id', '=', $id)->first()->name;
     }
+
+    public function scopeGetFullName($query)
+    {
+        $full_name = $query->where('id', '=', \Auth::user()->id)->first()->first_name;
+        $full_name .= " " . $query->where('id', '=', \Auth::user()->id)->first()->last_name;
+
+        return $full_name;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order', 'order_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Address', 'user_id');
+    }
+
+    public function userOrders()
+    {
+        return Order::where('user_id', \Auth::user()->id)
+            ->get()
+            ->count();
+    }
+
+    public function userOrdersAwait()
+    {
+        return Order::where([
+            'status' => true,
+        ])
+            ->where('user_id', \Auth::user()->id)
+            ->get()
+            ->count();
+    }
+
+    public function userOrdersDelivery()
+    {
+        return Order::where([
+            'status' => false,
+            'confirmed' => true
+        ])
+            ->where('user_id', \Auth::user()->id)
+            ->get()
+            ->count();
+    }
 }

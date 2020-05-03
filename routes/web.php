@@ -28,11 +28,14 @@ Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], func
     Route::get('/procced/success', 'AddCartController@orderTracker')->name('order.placed');
 });
 
-Auth::routes();
-Route::middleware(['auth'])->group(function () {
-    Route::get('/user/myaccount', function () {
-        return view('users.index');
-    })->name('user.profile');
+Route::group(['as' => 'user.', 'prefix' => 'user', 'middleware' => ['auth']], function () {
+    Route::get('/myaccount', 'ProfileController@index')->name('profile');
+    Route::get('/myaccount/orders', 'ProfileController@order')->name('orders');
+    Route::get('/myaccount/wishlist', 'ProfileController@wishlist')->name('wishlist');
+    Route::get('/myaccount/return', 'ProfileController@retur')->name('retur');
+    Route::get('/myaccount/settings', 'ProfileController@settings')->name('settings');
+    Route::get('/myaccount/product', 'ProfileController@seller')->name('seller');
+    Route::get('/myaccount/delivery', 'ProfileController@delevery')->name('delivery');
 });
 
 Route::get('/cat/{slug}', 'CategoriesController@index')->name('cat.view');
@@ -81,3 +84,5 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mid
         'create', 'store', 'index'
     ]);
 });
+
+Auth::routes();

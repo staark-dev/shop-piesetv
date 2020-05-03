@@ -14,8 +14,11 @@
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.0",
+        "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.3",
         "laravel/ui": "^2.0",
+        "laravelcollective/html": "^6.1",
+        "socialiteproviders/facebook": "^1.0",
         "spatie/crawler": "^4.6",
         "spatie/laravel-sitemap": "^5.7"
     },

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Config;
+use Form;
 
 class SettingsController extends Controller
 {
@@ -14,7 +16,8 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //
+        $data = Config::all();
+        return view('adm.setting.index', compact('data') );
     }
 
     /**

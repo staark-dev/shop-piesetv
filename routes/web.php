@@ -8,6 +8,26 @@ Route::get('/rules-and-terms', 'HomeController@index');
 Route::get('/about', 'HomeController@index');
 Route::get('/faq', 'HomeController@livrare')->name('faq');
 
+Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback')->name('fb.login.back');
+
+Route::get('/search', function () {
+    return view('search');
+})->name('advance.search');
+
+Route::get('/search', 'SearchController@search')->name('search');
+
+Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], function () {
+    Route::get('/', 'AddCartController@index')->name('index');
+    Route::get('/add/{product}', 'AddCartController@store')->name('store');
+    Route::post('/add/{product}', 'AddCartController@store')->name('store');
+    Route::put('/update/{id}', 'AddCartController@update')->name('update');
+    Route::delete('/remove/{id}', 'AddCartController@destroy')->name('delete');
+    Route::get('/procced', 'AddCartController@placeOrder')->name('order.place');
+    Route::post('/procced/complete', 'AddCartController@orderComplete')->name('order.complete');
+    Route::get('/procced/success', 'AddCartController@orderTracker')->name('order.placed');
+});
+
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/user/myaccount', function () {
@@ -19,6 +39,7 @@ Route::get('/cat/{slug}', 'CategoriesController@index')->name('cat.view');
 route::get('/cat/{catid}/{slug}', 'CategoriesController@sub')->name('cat.sub');
 Route::get('/product/{slug}', 'ProductController@index')->name('product.view');
 
+// Admin Routes
 Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::resource('user', 'UsersController');
@@ -33,6 +54,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mid
         Route::get('/sub/create', 'CategoriesController@sub_create')->name('sub.create');
         Route::post('/sub/store', 'CategoriesController@sub_store')->name('sub.store');
         Route::delete('/sub/{cat}', 'CategoriesController@sub_destroy')->name('sub.destroy');
+        Route::put('/sub/{cat}', 'CategoriesController@sub_update')->name('sub.update');
     });
     
     Route::resource('setting', 'SettingsController')->only([

@@ -21,15 +21,15 @@
                     <div class="sidebar content-box" style="display: block;">
                         <ul class="nav">
                         <!-- Main menu -->
-                        <li class="current"><a href="{{ route('admin.dashboard') }}"><i class="glyphicon glyphicon-home"></i> Prima Pagina</a></li>
-                        <li><a href="{{ route('admin.product.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Produse</a></li>
-                        <li><a href="{{ route('admin.orders.index') }}"><i class="glyphicon glyphicon-credit-card"></i> Comenzii</a></li>
-                        <li><a href="{{ route('admin.user.index') }}"><i class="glyphicon glyphicon-user"></i> Utilizatori</a></li>
-                        <li><a href="{{ route('admin.cat.index') }}"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> Categorii</a></li>
-                        <li><a href="{{ route('admin.task.index') }}"><i class="glyphicon glyphicon-tasks"></i> Tasks</a></li>
-                        <li><a href="{{ route('admin.cart.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Setari Cos</a></li>
-                        <li><a href="{{ route('admin.mail.index') }}"><i class="glyphicon glyphicon-envelope"></i> Mail</a></li>
-                        <li><a href="{{ route('admin.setting.index') }}"><i class="glyphicon glyphicon-wrench"></i> Setari Site</a></li>
+                        <li @if(request()->getPathInfo() == "/admin") class="current" @endif><a href="{{ route('admin.dashboard') }}"><i class="glyphicon glyphicon-home"></i> Prima Pagina</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/product") class="current" @endif><a href="{{ route('admin.product.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Produse</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/orders") class="current" @endif><a href="{{ route('admin.orders.index') }}"><i class="glyphicon glyphicon-credit-card"></i> Comenzii</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/user") class="current" @endif><a href="{{ route('admin.user.index') }}"><i class="glyphicon glyphicon-user"></i> Utilizatori</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/cat") class="current" @endif><a href="{{ route('admin.cat.index') }}"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> Categorii</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/task") class="current" @endif><a href="{{ route('admin.task.index') }}"><i class="glyphicon glyphicon-tasks"></i> Tasks</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/cart") class="current" @endif><a href="{{ route('admin.cart.index') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Setari Cos</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/mail") class="current" @endif><a href="{{ route('admin.mail.index') }}"><i class="glyphicon glyphicon-envelope"></i> Mail</a></li>
+                        <li @if(request()->getPathInfo() == "/admin/setting") class="current" @endif><a href="{{ route('admin.setting.index') }}"><i class="glyphicon glyphicon-wrench"></i> Setari Site</a></li>
                         </ul>
                     </div>
                 </div>

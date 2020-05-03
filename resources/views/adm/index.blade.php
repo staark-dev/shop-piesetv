@@ -62,6 +62,68 @@
     <div class="col-md-12">
         <div class="content-box-large">
             <div class="panel-heading">
+                <div class="panel-title">Ultimele vizite pe site</div>
+            </div>
+
+            <div class="panel-body table-responsive">
+                <table class="table table-stripe">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Utilizator</td>
+                            <td>Browser</td>
+                            <td>Dispozitiv</td>
+                            <td>IP</td>
+                            <td>Ultima activitate</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $id = 1; @endphp
+                        @foreach ($visite as $item)
+                        @php 
+                            $agent = App\Http\Controllers\Admin\DashboardController::get_browser($item->user_agent); 
+                            //$agent = App\Http\Controllers\Admin\DashboardController::get_browser_name($item->user_agent);
+                            $lastUpdate = date('Y-m-d H:i:s', $item->last_activity); 
+                            $minute = date_diff(new \DateTime($lastUpdate), new \DateTime())->i; // Get Minutes of date diff
+                            $ore = date_diff(new \DateTime($lastUpdate), new \DateTime())->h; // Get Minutes of date diff
+                        @endphp
+
+                        <tr>
+                            <td>{{ $id++ }}</td>
+                            <td>@if ($item->user_id != null)
+                                <strong style="color: red; ">{{ \App\User::getname($item->user_id) }}</strong>
+                            @else {{ $agent['bot'] }} @endif</td>
+                            <td>
+                                {{ $agent['browser'] }}
+                            </td>
+                            <td>
+                                @if ($agent['mobile'] != 'Unknown')
+                                {{ $agent['mobile'] }}
+                                @else
+                                Desktop ({{ $agent['platform'] }})
+                                @endif
+                            </td>
+                            <td>{{ $item->ip_address }}</td>
+                            <td>
+                                @if($minute > 0)
+                                {{ date_diff(new \DateTime($lastUpdate), new \DateTime())->format("acum %i minute si %s secunde") }}
+                                @elseif($ore > 0)
+                                {{ date_diff(new \DateTime($lastUpdate), new \DateTime())->format("acum %h ore, %i minute si %s secunde") }}
+                                @else
+                                {{ date_diff(new \DateTime($lastUpdate), new \DateTime())->format("acum %s secunde") }}
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                {{ $visite->links() }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="content-box-large">
+            <div class="panel-heading">
                 <div class="panel-title">Produse adaugate recent</div>
                 
                 <div class="panel-options">

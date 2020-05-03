@@ -13,12 +13,16 @@
 @endsection
 
 @section('content')
+@if(Session::has('message'))
+  <p class="alert alert-success">{{ Session::get('message') }}</p>
+@endif
+
 <section class="section-content padding-y" style="min-height:84vh">
     <section class="section-content">
         <div class="container">
             <header class="section-heading">
                 <h3 class="section-title">Random products</h3>
-            </header><!-- sect-heading -->
+            </header>
             <div class="row">
                 @foreach ($products as $item)
                     <div class="col-md-3">
@@ -27,8 +31,8 @@
                             <figcaption class="info-wrap">
                                 <a href="{{ route('product.view', ['slug' => $item->slug]) }}" class="title">{{ $item->title }}</a>
                                 <div class="mt-2">
-                                    <var class="price">${{ $item->price }}</var>
-                                    <a href="#" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
+                                    <var class="price">{{ $item->price }} Ron</var>
+                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-outline-primary float-right">Adauga in cos <i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </figcaption>
                         </div>

@@ -27,4 +27,16 @@ class Product extends Model
     {
         return $this->belongsToMany('App\SubCategories', 'product_sub_categories');
     }
+
+    public function scopeGetName($query, $pID) {
+        return $query->where('id', $pID)->get()[0]->title;
+    }
+
+    public function scopeGetPrice($query, $pID) {
+        return $query->where('id', $pID)->get()[0]->price;
+    }
+
+    public function scopeGetData($query, $pID, $expression) {
+        return $query->where('id', $pID)->get()[0]->{$expression};
+    }
 }

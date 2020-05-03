@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\UpdateProductStock;
+use App\Listener\UpdateProductStockListener;
+use App\Events\OrderCreated;
+use App\Listener\OrderCreatedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +19,26 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        'Illuminate\Auth\Events\Login' => ['App\Listeners\LoginSuccess'],
+        
+        'App\Events\UserRegistered' => [
+            'App\Listeners\SendWelcomeEmail',
+        ],
+
+        'App\Events\UserViewProduct' => [
+            'App\Listeners\UserHistoryProducts',
+        ],
+
+        'App\Events\UserAddtoCart' => [
+            'App\Listeners\UserCartUpdate',
+        ],
+
+        'App\Events\UpdatePoductsOrder' => [
+            'App\Listeners\CheckPoductsOrder',
+        ],
+
+        'App\Events\OrderShipped' => [
+            'App\Listeners\SendShipmentNotification',
         ],
     ];
 
@@ -28,7 +50,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

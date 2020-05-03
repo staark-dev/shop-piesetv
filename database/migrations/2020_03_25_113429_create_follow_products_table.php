@@ -14,7 +14,10 @@ class CreateFollowProductsTable extends Migration
     public function up()
     {
         Schema::create('follow_products', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->integer('user_id')->nullable();
+            $table->ipAddress('user')->nullable();
+            $table->json('product_info')->default('[]');
             $table->timestamps();
         });
     }

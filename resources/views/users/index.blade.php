@@ -26,7 +26,7 @@
 @section('content')
 <section class="section-pagetop bg">
     <div class="container">
-        <h2 class="title-page">My account</h2>
+        <h2 class="title-page">Conutl meu</h2>
     </div> <!-- container //  -->
 </section>
 
@@ -35,13 +35,13 @@
         <div class="row">
             <aside class="col-md-3">
                 <ul class="list-group">
-                    <a class="list-group-item active" href="#"> Account overview  </a>
-                    <a class="list-group-item" href="#"> My Orders </a>
-                    <a class="list-group-item" href="#"> My wishlist </a>
-                    <a class="list-group-item" href="#"> Return and refunds </a>
-                    <a class="list-group-item" href="#">Settings </a>
-                    <a class="list-group-item" href="#"> My Selling Items </a>
-                    <a class="list-group-item" href="#"> Received orders </a>
+                    <a class="list-group-item active" href="{{ route('user.profile') }}">Informatii generale</a>
+                    <a class="list-group-item" href="{{ route('user.orders') }}">Comenzile mele</a>
+                    <a class="list-group-item" href="{{ route('user.wishlist') }}">Produse favorite</a>
+                    <a class="list-group-item" href="{{ route('user.retur') }}">Retur si Banii inapoi</a>
+                    <a class="list-group-item" href="{{ route('user.settings') }}">Setari cont</a>
+                    <a class="list-group-item" href="{{ route('user.seller') }}">Produse vandute de mine.</a>
+                    <a class="list-group-item" href="{{ route('user.delivery') }}">Comenzii primite</a>
                 </ul>
             </aside>
 
@@ -51,16 +51,13 @@
                         <p class="widget-title">Datele contului</p>
                         <figure class="icontext">
                             <div class="icon">
-                                <img class="rounded-circle img-sm border" src="images/avatars/avatar3.jpg">
+                                <img class="rounded-circle img-sm border" src="{{ Storage::disk('public')->url(Auth::user()->avatar) }}">
                             </div>
                             <div class="text">
                                 <strong>
-                                    @if(Auth::user()->sex == 1)
-                                    Dl.
-                                    @else
-                                    Mrs.
-                                    @endif
-                                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                    
+                                    @if(Auth::user()->sex == 1) Dl. @else Mrs. @endif
+                                    {{ $user::getfullname() }}
                                 </strong>
                                 <br>
                                 {{ Auth::user()->email}}
@@ -70,35 +67,35 @@
                         </figure>
                         <hr>
                         <p>
-                            <i class="fa fa-map-marker text-muted"></i> &nbsp; My address:  
+                            <i class="fa fa-map-marker text-muted"></i> &nbsp; Adresa mea:  
                             <br>
-                            Tashkent city, Street name, Building 123, House 321 &nbsp; 
+                            {{ $user->addresses[0]->city }}, {{ $user->addresses[0]->address1 }} {{ $user->addresses[0]->address2 }} &nbsp; 
                             <a href="#" class="btn-link"> Edit</a>
                         </p>
 
                         <article class="card-group">
                             <figure class="card bg">
                                 <div class="p-3">
-                                     <h5 class="card-title">0</h5>
-                                    <span>Orders</span>
+                                     <h5 class="card-title">{{ $user->userOrders() }}</h5>
+                                    <span>Comenzii</span>
                                 </div>
                             </figure>
                             <figure class="card bg">
                                 <div class="p-3">
                                      <h5 class="card-title">0</h5>
-                                    <span>Wishlists</span>
+                                    <span>Produse Favorite</span>
                                 </div>
                             </figure>
                             <figure class="card bg">
                                 <div class="p-3">
-                                     <h5 class="card-title">0</h5>
-                                    <span>Awaiting delivery</span>
+                                     <h5 class="card-title">{{ $user->userOrdersAwait() }}</h5>
+                                    <span>Produse in asteptare</span>
                                 </div>
                             </figure>
                             <figure class="card bg">
                                 <div class="p-3">
-                                     <h5 class="card-title">0</h5>
-                                    <span>Delivered items</span>
+                                     <h5 class="card-title">{{ $user->userOrdersDelivery() }}</h5>
+                                    <span>Produse livrate</span>
                                 </div>
                             </figure>
                         </article>

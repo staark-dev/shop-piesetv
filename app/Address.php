@@ -20,6 +20,11 @@ class Address extends Model
 
     public $timestamps = false;
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function storeAddress(array $data)
     {
         if($this->checkAddress($data['user_id']) == true)
@@ -63,9 +68,9 @@ class Address extends Model
             $stmp->save();
 
             return $stmp->id;
+        } else {
+            return Address::whereNotNull('user_id')->first()->id;
         }
-
-        return false;
     }
 
     private function checkAddress($user_id = null)

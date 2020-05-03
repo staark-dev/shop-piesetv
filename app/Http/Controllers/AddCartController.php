@@ -325,6 +325,11 @@ class AddCartController extends Controller
         }
     }
 
+    public function decode($json)
+    {
+        return json_decode($json, true);
+    }
+
     public function orderComplete(Request $request)
     {
         $validator = $request->validate([
@@ -335,7 +340,6 @@ class AddCartController extends Controller
             'billing_localitate' => 'required|string|min:4',
             'billing_postal_code' => 'required|numeric|min:6',
         ]);
-        
         
         $data = array(
             'first_name' => $request->input('billing_first_name'),
@@ -356,17 +360,39 @@ class AddCartController extends Controller
         );
         
         Cart::where('user_id', '=', Auth::user()->id)->update(['product_info' => '[]']);
+
         $address = new Address;
         $getID = $address->storeOrderAddress($data);
 
         $order = Order::create([
             'user_id' => (Auth::check()) ? Auth::user()->id : null,
-            'address_id' => null,
+            'address_id' => $getID,
             'confirmed' => false,
             'status' => true,
             'hash' => \Hash::make($request->input('billing_email')),
-            'placed_date' => Carbon::now()
+            'placed_date' => Carbon::now(),
         ]);
+
+        if(count($this->decode($request->input('billing_products'))) > 1)
+        {
+            $items = $this->decode($request->input('billing_products'));
+            foreach($items as $key => $value)
+            {
+                foreach($value as $kr => $it)
+                {
+                    $kr = str_replace('produs_', '', $kr);
+                    DB::insert('insert into orders_products (product_id, order_id) values (?, ?)', [$kr, $order->id]);
+                }
+                
+            }
+        } else {
+            $items = $this->decode($request->input('billing_products'));
+            foreach($items as $tr)
+            {
+                $tr = str_replace('produs_', '', array_keys($tr));
+                DB::insert('insert into orders_products (product_id, order_id) values (?, ?)', [$tr[0], $order->id]);
+            }
+        }
 
         $billing_data = array(
             $order->id,
@@ -374,7 +400,6 @@ class AddCartController extends Controller
         );
 
         return \Redirect::route('cart.order.placed')->with('billing_data', $billing_data);
-        // view('order_placed', compact('billing_data'));
     }
 
     public function orderTracker(Request $request)

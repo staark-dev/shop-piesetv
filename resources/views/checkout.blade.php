@@ -299,7 +299,7 @@
 			<button type="submit" class="mt-4 btn btn-primary btn-block">Plaseaza comanda</button>
 			<input type="hidden" name="billing_total" value="{{ $totalPrice }}" />
 			<input type="hidden" name="billing_tax" value="25" />
-			<input type="hidden" name="billing_products" value="{{ json_encode($cart->product_info) }}">
+			<input type="hidden" name="billing_products" value="{{ $cart->product_info }}">
 		</aside>
 	</div>
 </form>

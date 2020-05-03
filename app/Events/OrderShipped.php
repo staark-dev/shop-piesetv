@@ -9,22 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Order;
 
-class OrderCreated
+class OrderShipped
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $productID;
-    public $userID;
-
+    public $order;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($productID, $userID)
+    public function __construct(Order $order)
     {
-        $this->productID = $productID;
-        $this->userID = $userID;
+        $this->order = $order;
     }
 }

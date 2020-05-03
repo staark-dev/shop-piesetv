@@ -40,7 +40,7 @@ class Address extends Model
         }
     }
 
-    public saveOrderAddress(array $data)
+    public function storeOrderAddress(array $data)
     {
         if($this->checkAddress($data['user_id']) == true)
         {
@@ -61,6 +61,8 @@ class Address extends Model
             $stmp->products     = json_encode($data['products']);
             $stmp->note         = $data['note'];
             $stmp->save();
+
+            return $stmp->id;
         }
 
         return false;

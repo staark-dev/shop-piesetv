@@ -25,9 +25,9 @@
     <div class="container">
         <div class="row">
             
-            <main class="@if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )col-md-9 @else col-md-12 @endif">
+            <main class="@if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info, true)) >= 1 )col-md-9 @else col-md-12 @endif">
                 <div class="card">
-                    @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
+                    @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info, true)) >= 1 )
                     <table class="table table-borderless table-shopping-cart">
                         <thead class="text-muted">
                             <tr class="small text-uppercase">
@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
+                            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info, true)) >= 1 )
                             @foreach (json_decode($cart->product_info) as $key => $value)
                                 @foreach ($value as $keys => $item)
                                 @php
@@ -83,13 +83,13 @@
                     <p class="card-body">Cosul dumneavoastra de cumparaturi este gol.<br>Pentru a adauga produse in cos va rugam sa va intoarceti in magazin si selectati <u>Adauga in cos</u> in pagina de produs.</p>
                     @endif
                     <div class="card-body border-top">
-                        @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )<a href="{{ route('cart.order.place') }}" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>@endif
+                        @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info, true)) >= 1 )<a href="{{ route('cart.order.place') }}" class="btn btn-primary float-md-right">Plaseaza comanda <i class="fa fa-chevron-right"></i> </a>@endif
                         <a href="{{ route('home') }}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continua cumparaturile</a>
                     </div>
                 </div>
             </main>
 
-            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info)) >= 1 )
+            @if( ($cart->user_id != null || $cart->user != null) && count(json_decode($cart->product_info, true)) >= 1 )
             <aside class="col-md-3">
                 <div class="card mb-3">
                     <div class="card-body" style="display: none">
@@ -126,6 +126,25 @@
             @endif
         </div>
     </div>
+</section>
+
+
+<section class="section-name bg padding-y">
+    <div class="container">
+        <h6>Payment and refund policy</h6>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div><!-- container // -->
 </section>
 @endsection
 

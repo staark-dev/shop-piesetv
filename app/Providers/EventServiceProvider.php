@@ -32,6 +32,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserAddtoCart' => [
             'App\Listeners\UserCartUpdate',
         ],
+
+        'App\Events\UpdatePoductsOrder' => [
+            'App\Listeners\CheckPoductsOrder',
+        ],
+
+        'App\Events\OrderShipped' => [
+            'App\Listeners\SendShipmentNotification',
+        ],
     ];
 
     /**

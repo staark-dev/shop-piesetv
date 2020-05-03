@@ -25,6 +25,7 @@ Route::group(['as'=> 'cart.', 'prefix' => 'cart', 'middleware' => ['web']], func
     Route::delete('/remove/{id}', 'AddCartController@destroy')->name('delete');
     Route::get('/procced', 'AddCartController@placeOrder')->name('order.place');
     Route::post('/procced/complete', 'AddCartController@orderComplete')->name('order.complete');
+    Route::get('/procced/success', 'AddCartController@orderTracker')->name('order.placed');
 });
 
 Auth::routes();
@@ -34,10 +35,15 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.profile');
 });
 
+Route::get('$billing_data', function () {
+    return view('order_placed');
+});
+
 Route::get('/cat/{slug}', 'CategoriesController@index')->name('cat.view');
 route::get('/cat/{catid}/{slug}', 'CategoriesController@sub')->name('cat.sub');
 Route::get('/product/{slug}', 'ProductController@index')->name('product.view');
 
+// Admin Routes
 Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::resource('user', 'UsersController');

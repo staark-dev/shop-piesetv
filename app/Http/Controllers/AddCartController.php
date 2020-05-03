@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use App\Product;
 use App\Cart;
 use App\User;
+use App\Address;
+use App\Order;
 use Illuminate\Support\Arr;
 use App\Events\UserAddtoCart;
 
@@ -34,7 +36,7 @@ class AddCartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'store', 'destroy', 'placeOrder', 'update']);
+        $this->middleware('auth')->except(['index', 'store', 'destroy', 'placeOrder', 'update', 'orderComplete']);
     }
 
     public function index()
@@ -43,6 +45,7 @@ class AddCartController extends Controller
         if(Auth::check()) {
             $cart = Cart::where('user_id', '=', Auth::user()->id)->get();
 
+            //dd(json_decode($cart[0]->product_info, true));
             if($cart->count() > 0) {
                 $cart = $cart[0];
                 return view('cart', compact('cart'));
@@ -325,17 +328,58 @@ class AddCartController extends Controller
     public function orderComplete(Request $request)
     {
         $validator = $request->validate([
-            'Nume' => 'required|string|min:5',
-            'Prenume' => 'required|string|min:5',
-            'Telefon' => 'required|numeric|min:10',
-            'Adresa' => 'required|string|min:5',
-            'Oras' => 'required|string|min:4',
-            'Cod Postal' => 'required|numeric|min:6',
-            'Curier' => 'required',
+            'billing_first_name' => 'required|string',
+            'billing_last_name' => 'required|string|min:5',
+            'billing_phone' => 'required|numeric|min:10',
+            'billing_address1' => 'required|string|min:5',
+            'billing_localitate' => 'required|string|min:4',
+            'billing_postal_code' => 'required|numeric|min:6',
         ]);
         
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        
+        $data = array(
+            'first_name' => $request->input('billing_first_name'),
+            'last_name' => $request->input('billing_last_name'),
+            'company' => $request->input('billing_company'),
+            'address1' => $request->input('billing_address1'),
+            'address2' => $request->input('billing_address2'),
+            'city' => "Jud. {$request->input('billing_judet')}, {$request->input('billing_localitate')}",
+            'postal_code' => $request->input('billing_postal_code'),
+            'phone' => $request->input('billing_phone'),
+            'email' => $request->input('billing_email'),
+            'note' => $request->input('order_comments'),
+            'user_id' => (Auth::check()) ? Auth::user()->id : null,
+            'total_prices' => $request->input('billing_total'),
+            'tax' => $request->input('billing_tax'),
+            'products' => json_decode($request->input('billing_products'), true),
+            'user_ip' => $request->ip(),
+        );
+        
+        Cart::where('user_id', '=', Auth::user()->id)->update(['product_info' => '[]']);
+        $address = new Address;
+        $getID = $address->storeOrderAddress($data);
+
+        $order = Order::create([
+            'user_id' => (Auth::check()) ? Auth::user()->id : null,
+            'address_id' => null,
+            'confirmed' => false,
+            'status' => true,
+            'hash' => \Hash::make($request->input('billing_email')),
+            'placed_date' => Carbon::now()
+        ]);
+
+        $billing_data = array(
+            $order->id,
+            $order->hash
+        );
+
+        return \Redirect::route('cart.order.placed')->with('billing_data', $billing_data);
+        // view('order_placed', compact('billing_data'));
+    }
+
+    public function orderTracker(Request $request)
+    {
+        $billing_data = \Session::get('billing_data');
+        return view('order_placed', compact('billing_data'));
     }
 }

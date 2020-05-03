@@ -35,10 +35,6 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.profile');
 });
 
-Route::get('$billing_data', function () {
-    return view('order_placed');
-});
-
 Route::get('/cat/{slug}', 'CategoriesController@index')->name('cat.view');
 route::get('/cat/{catid}/{slug}', 'CategoriesController@sub')->name('cat.sub');
 Route::get('/product/{slug}', 'ProductController@index')->name('product.view');

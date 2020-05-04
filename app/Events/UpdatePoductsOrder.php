@@ -9,8 +9,6 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Product;
-use App\User;
 use App\Order;
 
 class UpdatePoductsOrder
@@ -18,18 +16,17 @@ class UpdatePoductsOrder
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
-    public $product;
-    public $user;
+    public $product_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Order $order, Product $product, User $user)
+    public function __construct($product_id, Order $order, $args = [])
     {
-        $this->order = $order;
-        $this->product = $product;
-        $this->user = $user;
+        $this->product_id   = $product_id;
+        $this->order        = $order;
+        $this->args         = $args;
     }
 }

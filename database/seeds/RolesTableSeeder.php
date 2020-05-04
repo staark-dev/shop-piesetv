@@ -26,8 +26,8 @@ class RolesTableSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'Editor',
-            'slug' => 'editor',
+            'name' => 'Seller',
+            'slug' => 'seller',
             'created_at' => Carbon::now()
         ]);
     }

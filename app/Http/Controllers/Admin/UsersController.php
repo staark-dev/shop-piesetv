@@ -57,9 +57,8 @@ class UsersController extends Controller
             'confirm_password' => 'required|same:password',
         ]);
 
-        $roleId = $request->rol;
+        $roleId = $request->input('rol');
 
-        //dd($request->all());
         $uID = User::insertGetId([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -71,17 +70,17 @@ class UsersController extends Controller
             'updated_at' => Carbon::now()
         ]);
         
-        if($request->rol != 0) {
+        if($request->input('status') == 1) {
+            $user = User::find($uID);
+            $user->update(['email_verified_at' => Carbon::now()]);
+        }
+
+        if($request->input('rol') != 0) {
             $user = User::find($uID);
             $user->roles()->attach($roleId);
         } else {
             $user = User::find($uID);
             $user->roles()->attach(2);
-        }
-
-        if($request->status != 0) {
-            $user = User::find($uID);
-            $user->update(['email_verified_at' => Carbon::now()]);
         }
 
         return redirect()->route('admin.user.index')->with('status', 'Utilizator creat cu success.');

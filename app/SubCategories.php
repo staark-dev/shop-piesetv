@@ -9,6 +9,7 @@ class SubCategories extends Model
     protected $table = 'sub_categories';
 
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     public function categories()
     {

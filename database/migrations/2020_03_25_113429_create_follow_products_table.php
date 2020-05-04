@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
 class CreateFollowProductsTable extends Migration
@@ -17,7 +18,7 @@ class CreateFollowProductsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->nullable();
             $table->ipAddress('user')->nullable();
-            $table->json('product_info')->default('[]');
+            $table->json('product_info')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
     }

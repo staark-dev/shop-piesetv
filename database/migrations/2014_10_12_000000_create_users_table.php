@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('telefon')->nullable();
             $table->integer('sex');
             $table->date('birthday')->nullable();
+            $table->string('company')->nullable();
+            $table->integer('products')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

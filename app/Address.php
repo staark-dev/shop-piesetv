@@ -9,7 +9,7 @@ class Address extends Model
 {
     protected $fillable = [
         'first_name', 'last_name', 'company', 'address1', 'address2', 'city', 'user_id',
-        'phone', 'email', 'postal_code', 'user_ip', 'total_prices', 'tax', 'products', 'note'
+        'phone', 'email', 'postal_code', 'user_ip', 'note'
     ];
 
     protected $table = 'addresses';
@@ -61,9 +61,6 @@ class Address extends Model
             $stmp->postal_code  = $data['postal_code'];
             $stmp->user_ip      = $data['user_ip'];
             $stmp->user_id      = $data['user_id'];
-            $stmp->total_prices = $data['total_prices'];
-            $stmp->tax          = $data['tax'];
-            $stmp->products     = json_encode($data['products']);
             $stmp->note         = $data['note'];
             $stmp->save();
 

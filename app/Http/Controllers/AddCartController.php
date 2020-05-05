@@ -7,9 +7,8 @@ use DB, Cache, Auth;
 use Carbon\Carbon;
 use App\Product, App\Cart, App\User, App\Address, App\Order;
 use Illuminate\Support\Arr;
-use App\Events\UserAddtoCart;
-use App\Events\UpdatePoductsOrder;
-use App\Mail\OrderShipped;
+use App\Events\UserAddtoCart,App\Events\UpdatePoductsOrder;
+use App\Mail\OrderShipped, App\Mail\ComandaNoua;
 use Illuminate\Support\Facades\Mail;
 
 function getRealIpAddr()
@@ -352,9 +351,6 @@ class AddCartController extends Controller
             'email' => $request->input('billing_email'),
             'note' => $request->input('order_comments'),
             'user_id' => (Auth::check()) ? Auth::user()->id : null,
-            'total_prices' => $request->input('billing_total'),
-            'tax' => $request->input('billing_tax'),
-            'products' => json_decode($request->input('billing_products'), true),
             'user_ip' => $request->ip(),
         );
         
@@ -369,6 +365,8 @@ class AddCartController extends Controller
             'status' => true,
             'hash' => \Hash::make($request->input('billing_email')),
             'placed_date' => Carbon::now(),
+            'total_price' => $request->input('billing_total'),
+            'tax' => $request->input('billing_tax'),
         ]);
 
         $ids = explode(",", $request->input('billing_products_id'));
@@ -381,6 +379,10 @@ class AddCartController extends Controller
         $user = User::findOrFail(Auth::user()->id);
 
         Mail::to($request->input('billing_email'))->send(new OrderShipped($user, $order, json_decode($request->input('billing_products'), true)));
+
+        foreach (['ionuzcostin@gmail.com', 'ionuz.kta28@yahoo.com', 'ssytcodes@gmail.com'] as $recipient) {
+            Mail::to($recipient)->send(new ComandaNoua($order, $user, json_decode($request->input('billing_products'), true) ));
+        }
 
         $billing_data = array(
             $order->id,

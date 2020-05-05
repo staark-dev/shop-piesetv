@@ -4,15 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
-use Config;
+use DB, Config, App\Online;
 use Carbon\Carbon;
-use App\Online;
-use App\User;
-use App\Product;
-use App\Categories;
-use App\SubCategories;
-//use App\Http\Controllers\Admin\AjaxController as Ajax;
+use App\User, App\Product, App\Categories, App\SubCategories, App\Order;
 
 class DashboardController extends Controller
 {
@@ -109,11 +103,12 @@ class DashboardController extends Controller
         $subCat = SubCategories::all();
         $totalCat = $cat->count() + $subCat->count();
         $visite = DB::table('sessions')->orderBy('last_activity', 'desc')->paginate(25);
+        $orders = Order::orderBy('placed_date', 'DESC')->paginate(10);
 
         $recentProduct = Product::with(['categories', 'subCategories'])->orderBy('created_at', 'desc')->take(5)->get();
         //dd($recentProduct);
         return view('adm.index', compact(
-            'users', 'products', 'totalCat', 'recentProduct', 'visite'
+            'users', 'products', 'totalCat', 'recentProduct', 'visite', 'orders'
         ));
     }
 }

@@ -86,3 +86,5 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mid
 });
 
 Auth::routes();
+
+Route::get('test/mail', 'MailController@index');

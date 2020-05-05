@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
-use Cache;
-use Auth;
+use DB, Cache, Auth;
 use Carbon\Carbon;
-use App\Product;
-use App\Cart;
-use App\User;
-use App\Address;
-use App\Order;
+use App\Product, App\Cart, App\User, App\Address, App\Order;
 use Illuminate\Support\Arr;
 use App\Events\UserAddtoCart;
 use App\Events\UpdatePoductsOrder;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
 function getRealIpAddr()
 {
@@ -381,6 +377,10 @@ class AddCartController extends Controller
                 'billing_products' => $request->input('billing_products')
             ]
         ));
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        Mail::to($request->input('billing_email'))->send(new OrderShipped($user, $order, json_decode($request->input('billing_products'), true)));
 
         $billing_data = array(
             $order->id,

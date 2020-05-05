@@ -157,7 +157,7 @@ table.table tr th, table.table tr td {
                 <th>Nume</th>						
                 <th>Data Creare</th>
                 <th>URL</th>
-                <th>Brand-uri</th>
+                <th>Sub Categorii</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -168,7 +168,7 @@ table.table tr th, table.table tr td {
                 <td>{{ $item->name }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                 <td>{{ route('cat.view', ['slug' => $item->slug]) }}</td>
-                <td>{{ $item->sub_categories->count() }}</td>
+                <td>{{ ($item->sub_categories) ? $item->sub_categories->count() : 0 }}</td>
                 <td>
                     <a href="#editCategoriesModal" data-categories='@json([
                         ['name' => $item->name, 'id' => $item->id, 'slug' => $item->slug]
@@ -176,23 +176,24 @@ table.table tr th, table.table tr td {
                     <a href="#deleteCategoriesModal" class="delete" data-categories="{{ $item->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
-            @forelse ($item->sub_categories as $sub)
-                <tr>
-                    <td>{{ $sub->id }}</td>
-                    <td>&nbsp;»<strong> {{ $sub->name }}</strong></td>
-                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                    <td>{{ route('cat.view', ['slug' => $sub->slug]) }}</td>
-                    <td>-</td>
-                    <td>
-                        <a href="#editCategoriesModal" data-id="{{ $sub->id }}" data-sub_categories='@json([
-                            ['name' => $sub->name, 'parent' => $sub->categories[0]->name, 'slug' => $sub->slug]
-                        ])' data-toggle="modal" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
-                        <a href="#deleteSubCategoriesModal" class="delete" data-sub_categories="{{ $sub->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
-            @empty
-                
-            @endforelse
+            @if($item->sub_categories)
+                @forelse ($item->sub_categories as $sub)
+                    <tr>
+                        <td>{{ $sub->id }}</td>
+                        <td>&nbsp;»<strong> {{ $sub->name }}</strong></td>
+                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                        <td>{{ route('cat.view', ['slug' => $sub->slug]) }}</td>
+                        <td>-</td>
+                        <td>
+                            <a href="#editCategoriesModal" data-id="{{ $sub->id }}" data-sub_categories='@json([
+                                ['name' => $sub->name, 'parent' => $sub->categories[0]->name, 'slug' => $sub->slug]
+                            ])' data-toggle="modal" class="edit"><span class="glyphicon glyphicon-cog"></span></a>&nbsp;
+                            <a href="#deleteSubCategoriesModal" class="delete" data-sub_categories="{{ $sub->id }}" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                @empty
+                @endforelse
+            @endif
             @endforeach
         </tbody>
     </table>

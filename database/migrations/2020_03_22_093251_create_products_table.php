@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 5, 2);
             $table->longText('description');
             $table->json('gallery')->default(new Expression('(JSON_ARRAY())'));
-            $table->integer('orders');
+            $table->integer('orders')->nullable()->unsigned();
             $table->unsignedBigInteger('seller')->nullable()->unsigned();
             $table->unsignedBigInteger('categories_id')->nullable()->unsigned();
             $table->unsignedBigInteger('sub_categories_id')->nullable()->unsigned();

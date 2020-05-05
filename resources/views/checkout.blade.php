@@ -260,7 +260,8 @@
 								@foreach ($value as $keys => $item) 
 								@php 
 									$cartItems += 1;
-									$totalPrice += $item->price; 
+									$totalPrice += $item->price;
+									$productID[] = str_replace('produs_', '', $keys);
 								@endphp
 								<div class="col-md-6">
 									<figure class="itemside mb-3">
@@ -276,6 +277,7 @@
 								</div>
 								@endforeach
 							@endforeach
+							@php $productsID = implode(",", $productID); @endphp
 						</div>
 				</article>
 				<article class="card-body border-top">
@@ -297,9 +299,10 @@
 
 		<aside class="col-md-6 mt-5 pt-2 border-top">
 			<button type="submit" class="mt-4 btn btn-primary btn-block">Plaseaza comanda</button>
-			<input type="hidden" name="billing_total" value="{{ $totalPrice }}" />
-			<input type="hidden" name="billing_tax" value="25" />
-			<input type="hidden" name="billing_products" value="{{ $cart->product_info }}">
+			{!! Form::hidden('billing_total', $totalPrice) !!}
+			{!! Form::hidden('billing_tax', '25') !!}
+			{!! Form::hidden('billing_products', $cart->product_info) !!}
+			{!! Form::hidden('billing_products_id', $productsID) !!}
 		</aside>
 	</div>
 </form>

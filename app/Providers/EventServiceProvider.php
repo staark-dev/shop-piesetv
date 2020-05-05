@@ -19,7 +19,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Illuminate\Auth\Events\Login' => ['App\Listeners\LoginSuccess'],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LoginSuccess'
+        ],
         
         'App\Events\UserRegistered' => [
             'App\Listeners\SendWelcomeEmail',

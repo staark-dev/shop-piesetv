@@ -42,7 +42,7 @@
                 </div>
             </div>
             
-            @if(!empty($product->gallery))
+            @if(!empty($product->gallery) && is_array($product->gallery))
             <div class="container service1-items col-sm-2 col-md-2 pull-left">
                 @foreach (json_decode($product->gallery, true) as $item)
                     <a id="item-1" class="service1-item">

@@ -16,7 +16,7 @@ class CreateUserHistoriesTable extends Migration
         Schema::create('user_histories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable()->unsigned();
             $table->longText('log')->nullable();
             $table->integer('type')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

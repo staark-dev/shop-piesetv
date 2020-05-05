@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role', 'role_user_table', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
     }
 
     public function online()
@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany('App\Order', 'order_id');
+        return $this->hasMany('App\Order', 'id');
     }
 
     public function products()

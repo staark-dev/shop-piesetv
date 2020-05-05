@@ -121,6 +121,51 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <div class="content-box-large">
+            <div class="panel-heading">
+                <div class="panel-title">Comenzii noi plasate</div>
+                
+                <div class="panel-options">
+                    <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+                    <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                @if(empty($orders))
+                <p>Nu au fost gasite date.</p>
+                @else
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Order Number #</th>
+                            <th>Order Author</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Tracker</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody> @foreach ($orders as $order)
+                        <tr>
+                            <td class="active">#{{ str_pad($order->id, 8, "0", STR_PAD_LEFT) }}</td>
+                            <td class="active">{{ \App\User::getfullname($order->user_id) }}</td>
+                            <td class="active">{{ $order->total_price + $order->tax }} Lei</td>
+                            <td class="active">{!! ($order->status == true) ? '<span class="text-success">Procesata</span>' : '<span class="text-danger">Anulata</span>' !!}</td>
+                            <td class="active">{{ ($order->tracker == 1) ? 'In curs de verificare' : 'Uncknow' }}</td>
+                            <td class="active">
+                                <a href="#" class="view"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;
+                                <a href="#" class="edit"><span class="glyphicon glyphicon-cog"></span></a>
+                            </td>
+                        </tr>
+                    @endforeach</tbody>
+                </table>
+                @endif
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-12">
         <div class="content-box-large">
             <div class="panel-heading">
@@ -160,22 +205,6 @@
                 @endforeach
                 </tbody>
             </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="content-box-large">
-            <div class="panel-heading">
-                <div class="panel-title">Comenzii noi plasate</div>
-                
-                <div class="panel-options">
-                    <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                    <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-                </div>
-            </div>
-            <div class="panel-body">
-                <p>Nu au fost gasite date.</p>
             </div>
         </div>
     </div>

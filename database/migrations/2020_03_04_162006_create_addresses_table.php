@@ -26,9 +26,6 @@ class CreateAddressesTable extends Migration
             $table->ipAddress('user_ip');
             $table->string('postal_code', 6);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->tinyInteger('total_prices');
-            $table->tinyInteger('tax')->default(25);
-            $table->json('products')->default('(JSON_ARRAY())');
             $table->longText('note')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });

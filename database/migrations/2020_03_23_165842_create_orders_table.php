@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->bigIncrements('order_id')->unique();
+            $table->bigIncrements('id')->unique();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->jsonb('products')->nullable()->default(new Expression('(JSON_ARRAY())'));
             $table->unsignedBigInteger('address_id')->nullable();
@@ -26,6 +26,8 @@ class CreateOrdersTable extends Migration
             $table->mediumText('hash')->nullable();
             $table->dateTime('placed_date')->nullable()->default(Carbon::now());
             $table->dateTime('last_update_date')->nullable()->default(Carbon::now());
+            $table->integer('tax')->nullable()->default(25);
+            $table->integer('total_price')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade')->onUpdate('cascade');
         });

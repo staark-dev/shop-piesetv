@@ -26,7 +26,7 @@
 @section('content')
 <section class="section-pagetop bg">
     <div class="container">
-        <h2 class="title-page">Conutl meu</h2>
+        <h2 class="title-page">Contul meu</h2>
     </div> <!-- container //  -->
 </section>
 

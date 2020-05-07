@@ -12,13 +12,15 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = User::with('orders')->with('addresses')->where('id', '=', Auth::user()->id)->first();
-        return view('users.index', compact('user'));
+        $user = User::with('orders')->where('id', '=', Auth::user()->id)->first();
+        return view('users.profile', compact('user'));
     }
 
     public function order()
     {
-        
+        $user = User::with('orders')->where('id', '=', Auth::user()->id)->first();
+        $orders = $user->orders()->orderBy('id', 'desc')->paginate(5);
+        return view('users.orders', compact('user', 'orders'));
     }
     
     public function wishlist()

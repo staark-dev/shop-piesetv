@@ -17,7 +17,7 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function scopeAwaitDelivery($query, $user_id)
@@ -34,5 +34,10 @@ class Order extends Model
             ->where('user_id', '=', $user_id)
             ->get()
             ->count();
+    }
+
+    public function fetchProducts()
+    {
+        return true;
     }
 }

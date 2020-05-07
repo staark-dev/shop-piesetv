@@ -35,72 +35,20 @@
         <div class="row">
             <aside class="col-md-3">
                 <ul class="list-group">
-                    <a class="list-group-item active" href="{{ route('user.profile') }}">Informatii generale</a>
-                    <a class="list-group-item" href="{{ route('user.orders') }}">Comenzile mele</a>
-                    <a class="list-group-item" href="{{ route('user.wishlist') }}">Produse favorite</a>
-                    <a class="list-group-item" href="{{ route('user.retur') }}">Retur si Banii inapoi</a>
-                    <a class="list-group-item" href="{{ route('user.settings') }}">Setari cont</a>
-                    <a class="list-group-item" href="{{ route('user.seller') }}">Produse vandute de mine.</a>
-                    <a class="list-group-item" href="{{ route('user.delivery') }}">Comenzii primite</a>
+                    <a class="list-group-item @yield('page-profile')" href="{{ route('user.profile') }}">Informatii generale</a>
+                    <a class="list-group-item @yield('page-orders')" href="{{ route('user.orders') }}">Istoricul comenzilor mele</a>
+                    <a class="list-group-item @yield('page-wishlist')" href="{{ route('user.wishlist') }}">Produse favorite</a>
+                    <a class="list-group-item @yield('page-retur')" href="{{ route('user.retur') }}">Retur si Banii inapoi</a>
+                    <a class="list-group-item @yield('page')" href="{{ route('user.settings') }}">Setari cont</a>
+                    @if(Auth::user()->role_id == 3)
+                    <a class="list-group-item @yield('page')" href="{{ route('user.seller') }}">Produse vandute de mine.</a>
+                    @endif
+                    <a class="list-group-item @yield('page')" href="{{ route('user.delivery') }}">Comenzii primite</a>
                 </ul>
             </aside>
 
             <main class="col-md-9">
-                <article class="card mb-3">
-                    <div class="card-body">
-                        <p class="widget-title">Datele contului</p>
-                        <figure class="icontext">
-                            <div class="icon">
-                                <img class="rounded-circle img-sm border" src="{{ Storage::disk('public')->url(Auth::user()->avatar) }}">
-                            </div>
-                            <div class="text">
-                                <strong>
-                                    
-                                    @if(Auth::user()->sex == 1) Dl. @else Mrs. @endif
-                                    {{ $user::getfullname() }}
-                                </strong>
-                                <br>
-                                {{ Auth::user()->email}}
-                                <br> 
-                                <a href="#">Edit</a>
-                            </div>
-                        </figure>
-                        <hr>
-                        <p>
-                            <i class="fa fa-map-marker text-muted"></i> &nbsp; Adresa mea:  
-                            <br>
-                            {{ $user->addresses[0]->city }}, {{ $user->addresses[0]->address1 }} {{ $user->addresses[0]->address2 }} &nbsp; 
-                            <a href="#" class="btn-link"> Edit</a>
-                        </p>
-
-                        <article class="card-group">
-                            <figure class="card bg">
-                                <div class="p-3">
-                                     <h5 class="card-title">{{ $user->userOrders() }}</h5>
-                                    <span>Comenzii</span>
-                                </div>
-                            </figure>
-                            <figure class="card bg">
-                                <div class="p-3">
-                                     <h5 class="card-title">0</h5>
-                                    <span>Produse Favorite</span>
-                                </div>
-                            </figure>
-                            <figure class="card bg">
-                                <div class="p-3">
-                                     <h5 class="card-title">{{ $user->userOrdersAwait() }}</h5>
-                                    <span>Produse in asteptare</span>
-                                </div>
-                            </figure>
-                            <figure class="card bg">
-                                <div class="p-3">
-                                     <h5 class="card-title">{{ $user->userOrdersDelivery() }}</h5>
-                                    <span>Produse livrate</span>
-                                </div>
-                            </figure>
-                        </article>
-                    </div>
-                </article>
+                @yield('user.content')
             </main>
         </div>
     </div>

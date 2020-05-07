@@ -69,13 +69,15 @@
                                     <a href="/myaccount" data-toggle="dropdown" class="dropdown-toggle"> Cont-ul Meu </a>
                                     <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px;">
                                         <li><a class="dropdown-item" href="{{ route('user.profile') }}">Contul meu</a></li>
-                                        <li><a class="dropdown-item" href="#">Comenziile mele</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.orders') }}">Comenziile mele</a></li>
                                         <li><a class="dropdown-item" href="#">Garantiile mele</a></li>
-                                        <li><a class="dropdown-item" href="#">Date personale</a></li>
-                                        <li><a class="dropdown-item" href="#">Setari siguranta</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.settings') }}">Date personale</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.settings') }}?p=secutity&p=other">Setari siguranta</a></li>
                                         <div class="dropdown-divider"></div>
                                         @if(Auth::user()->role_id == 1)
                                         <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Panel</a>
+                                        @elseif(Auth::user()->role_id == 3)
+                                        <a class="dropdown-item" href="#">Seller Panel (Soon)</a>
                                         @endif
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

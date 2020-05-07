@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="main_nav">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp;Toate Categoriile</strong></a>
+                    <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars" style="color:black;font-weight:bold"></i></strong> &nbsp;Toate Categoriile</a>
                     <div class="dropdown-menu">
                         @foreach ($allCat as $item)
                         <a class="dropdown-item" href="{{ route('cat.view', ['slug' => $item->slug]) }}">{{ $item->name }}</a>

@@ -1,6 +1,6 @@
 <footer class="section-footer border-top bg">
 	<div class="container">
-		<section class="footer-top  padding-y">
+		<section class="footer-top  padding-y">		
 			<div class="row">
 				<aside class="col-md col-6">
 					<h6 class="title">Company</h6>

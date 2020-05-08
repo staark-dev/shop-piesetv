@@ -16,14 +16,13 @@ DB_DATABASE=laravel
 DB_USERNAME=username
 DB_PASSWORD=userpassword
 ```
+Make your details it's ok, after make installer was get erorrs.
 
 ## How to install?
 On your CMD run next commands:
-`composer update`
-
-After composer update all files to date
-Run this command
 `php artisan install:shop`
+
+On localhost development you type next cmd `php artisan serve`
 
 ## After run Artisan installer
 Acces your domain on browser and see your shop.

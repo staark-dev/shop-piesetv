@@ -1,37 +1,36 @@
-## Welcome to GitHub Pages
+## Welcome to Shop PieseTV
 
-You can use the [editor on GitHub](https://github.com/SSYTOfficial/shop-piesetv/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+How to install this Laravel Application?
+First steep:
+Clone [Link](git@github.com:Staark94/shop-piesetv.git)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## Config .env file for database connection
+```
+DB_HOST=localhost/your host
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=username
+DB_PASSWORD=userpassword
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## How to install?
+On your CMD run next commands:
+`composer update`
 
-### Jekyll Themes
+After composer update all files to date
+Run this command
+`php artisan install:shop`
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SSYTOfficial/shop-piesetv/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## After run Artisan installer
+Acces your domain on browser and see your shop.
 
-### Support or Contact
+## Roles & Permisions
+Laravel use guard for create roles and permision, your admin dashboard is allow of user has role `Admin`, for Seller's has create a custom dashboard, to see all products, and orders of him products.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Future
+Responsive for all device
+Using Bootstrap Framework for make your shop.
+Usign clean codes for more power and every body edit some functions.
+Create my own Custom Cart function with database
+Mail was responsive for all devices.
+And other future discover by you.

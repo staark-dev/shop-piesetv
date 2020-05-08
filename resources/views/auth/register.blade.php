@@ -50,6 +50,10 @@
                     <input class="custom-control-input" type="radio" name="gender" value="2">
                     <span class="custom-control-label">Femeie</span>
                 </label>
+                <label class="custom-control custom-radio custom-control-inline">
+                    <input class="custom-control-input" checked="" type="radio" name="gender" value="3">
+                    <span class="custom-control-label">Nu vreau sa raspund</span>
+                </label>
             </div>
 
             <div class="form-row">
@@ -87,13 +91,14 @@
                 </div>
             </div>
 
+            <div class="form-group"> 
+                <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" checked=""> <div class="custom-control-label"> I am agree with <a href="#">terms and contitions</a>  </div> </label>
+            </div>
+
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block"> Register  </button>
             </div>
 
-            <div class="form-group"> 
-                <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" checked=""> <div class="custom-control-label"> I am agree with <a href="#">terms and contitions</a>  </div> </label>
-            </div>
         </form>
     </article>
 </div>

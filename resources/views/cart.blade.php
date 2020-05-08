@@ -75,7 +75,7 @@
                                     </td>
                                     <td class="text-right">
                                         {{ Form::open(array('', 'method' => 'POST')) }}
-                                        {!! Form::submit('&hearts;', array('class' => 'btn btn-secondary', 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Salveaza pentru mai tarziu")) !!}
+                                        {!! Form::submit('&hearts;', array('class' => 'btn btn-secondary', 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Salveaza pentru mai tarziu",'style' => "color:#F08080")) !!}
                                         {{ Form::close() }}
 
                                         {{ Form::open(array('route' => array('cart.delete', 'id' => $keys), 'method' => 'DELETE')) }}

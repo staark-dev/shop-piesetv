@@ -44,6 +44,9 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block"> Login  </button>
             </div>
+            <div>
+             <span>If you don't have an account <a href="{{ route('register') }}">Register</a> here<span>
+            </div>
         </form>
     </div>
 </div>

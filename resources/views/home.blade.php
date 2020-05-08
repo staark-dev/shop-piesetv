@@ -6,8 +6,8 @@
 
 @section('header-banner')
 <section class="section-intro">
-    <div class="intro-banner-wrap">
-        <img src="{{ Storage::disk('public')->url('images/banners/banner.jpg') }}" class="w-100 img-fluid">
+    <div class="intro-banner-wrap" style="margin-left:20.5%;margin-right:20.5%">
+        <img src="{{ Storage::disk('public')->url('images/banners/banner.jpg') }}" class="w-100" style="height: 400px;border-radius:7px">
     </div>
 </section>
 @endsection
@@ -30,10 +30,12 @@
                             <a href="{{ route('product.view', ['slug' => $item->slug]) }}" class="img-wrap"> <img src="{{ Storage::disk('public')->url('images/items/' . $item->image) }}"> </a>
                             <figcaption class="info-wrap">
                                 <a href="{{ route('product.view', ['slug' => $item->slug]) }}" class="title">{{ $item->title }}</a>
-                                <div class="mt-2">
+                                <div class="mt-2" style="text-align: center">
                                     <var class="price">{{ $item->price }} Ron</var>
-                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-outline-primary float-right">Adauga in cos <i class="fa fa-shopping-cart"></i></a>
+                                    <div>
+                                    <a href="{{ route('cart.store', ['product' => $item->id]) }}" class="btn btn-sm btn-primary ">Adauga in cos <i class="fa fa-shopping-cart"></i></a>
                                 </div>
+                            </div>
                             </figcaption>
                         </div>
                     </div>
@@ -43,3 +45,4 @@
     </section>
 </section>
 @endsection
+

@@ -2,7 +2,7 @@
 
 @section('header-banner')
 <section class="section-pagetop bg">
-    <div class="container">
+    <div class="container" style="text-align: center">
         <h2 class="title-page">Finalizează comanda</h2>
     </div>
 </section>
@@ -11,7 +11,7 @@
 @php $totalPrice = 0; $cartItems = null; @endphp
 @section('content')
 @guest
-<div class="alert alert-success" role="alert" style="border-radius: 0;">
+<div class="alert alert-success" role="alert" style="border-radius: 0;text-align:center">
   	<h4 class="alert-heading">Client existent?</h4>
   	<p>
 		<a href="{{ route('login') }}">Conectare</a>
@@ -44,11 +44,11 @@
 </div>
 @endif
 
-<form action="{{ route('cart.order.complete') }}" method="post">
+<form action="{{ route('cart.order.complete') }}" method="post" style="margin-left: 30%">
 	@csrf
-	<div class="row m-5">
+	<div class="row m-5" style="">
 		<div class="col-md-12">
-			<div class="row">
+			<div class="row" >
 				<div class="form-group col-md-3">
 					<label for="name">Nume</label>
 					<input id="name" class="form-control" type="text" name="billing_first_name">
@@ -58,16 +58,10 @@
 					<label for="prename">Prenume *</label>
 					<input id="prename" class="form-control" type="text" name="billing_last_name">
 				</div>
-
-				<div class="form-group col-md-5">
-					<label for="my-input">Note comandă (opțional)</label>
-					<textarea name="order_comments" class="form-control" id="order_comments" placeholder="Observații despre comanda ta, de exemplu: anumite detalii pentru livrare." rows="2" cols="5"></textarea>
-				</div>
 				
-
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-8">
 					<label for="company">Denumire companie (opțional)</label>
-					<input id="company" class="form-control" type="text" name="billing_company">
+					<input id="company" class="form-control" type="text" name="billing_company" style="width: 590px"> 
 				</div>
 
 				<div class="form-group col-md-8">
@@ -106,6 +100,11 @@
 					<label for="company">Adresă email *</label>
 					<input id="company" class="col-md-9 form-control" type="text" name="billing_email">
 				</div>
+				<div class="form-group col-md-5">
+					<label for="my-input">Note comandă (opțional)</label>
+					<textarea name="order_comments" class="form-control" style="width: 600px" id="order_comments" placeholder="Observații despre comanda ta, de exemplu: anumite detalii pentru livrare." rows="2" cols="5"></textarea>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -147,8 +146,8 @@
 					  	<dt class="col-sm-10">Subtotal:</dt>
 					  	<dd class="col-sm-2 text-right"><strong>{{ $totalPrice }},00 Ron</strong></dd>
 	
-						<dt class="col-sm-10">Livrare: <span class="float-right text-muted"></span></dt>
-						<dd class="col-sm-2 text-right text-success"><strong>Curier: 25,00 Ron</strong></dd>
+						<dt class="col-sm-10">Livrare(curier): <span class="float-right text-muted"></span></dt>
+						<dd class="col-sm-2 text-right text-success"><strong>25,00 Ron</strong></dd>
 
 					  	<dt class="col-sm-10">Total:</dt>
 					  	<dd class="col-sm-2 text-right"><strong class="h5 text-dark">{{ $totalPrice + 25 }} Ron</strong></dd>
@@ -159,7 +158,7 @@
 		</aside>
 
 		<aside class="col-md-6 mt-5 pt-2 border-top">
-			<button type="submit" class="mt-4 btn btn-primary btn-block">Plaseaza comanda</button>
+			<button type="submit" class="mt-4 btn btn-success btn-block">Plaseaza comanda</button>
 			<input type="hidden" name="billing_total" value="{{ $totalPrice }}" />
 			<input type="hidden" name="billing_tax" value="25" />
 			<input type="hidden" name="billing_products" value="{{ json_encode($cart->product_info) }}">

@@ -42,13 +42,14 @@
         @include('layouts.partials.header')
 
         @yield('navigation')
+        <div>
 
         @yield('header-banner')
 
         @yield('content')
         
         <div class="scroller" style="margin-left: 50%">
-			<button onclick="topFunction()" id="myBtn" class="btn btn-light" title="Go to top" style="border: none;width:50px;text-align:center"><i class="fa fa-arrow-circle-up" style="font-size:30px"></i></button>
+			<button onclick="topFunction()" id="myBtn" class="btn btn-light" title="Go to top" style="border: none;width:50px;text-align:center"><i class="fa fa-arrow-circle-up" style="font-size:30px;"></i></button>
 				
 				<script>
 				
